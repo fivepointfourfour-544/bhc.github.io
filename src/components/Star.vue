@@ -1,15 +1,6 @@
 <template>
-    <div class="col">
+    <div class="col-12">
         <div class="row gx-2">
-            <div class="col-auto">
-                <div class="timeline-marker">
-                
-                    <i v-if="!data[id].unlocked" class="fas fa-fw fa-lock text-muted"></i>
-                    <i v-if="data[id].unlocked && data[id].status != 'owned'" class="fas fa-fw fa-lock-open"></i>
-                    <i v-if="data[id].unlocked && data[id].status == 'owned'" class="fas fa-fw fa-check text-success"></i>
-                    
-                </div>
-            </div>
             <div class="col">
             
                 <div v-if="!data[id].unlocked" class="card card-body">
@@ -38,7 +29,8 @@
                                                     <span class="text-normal">{{ $t(data[id].resource1) }}</span>
                                                 </div>
                                                 <div class="col-auto small">
-                                                    <span class="text-success">+25%</span>
+                                                    <span v-if="data[id].donor == false" class="text-success">+25%</span>
+                                                    <span v-if="data[id].donor == true" class="fw-bold text-donor">+50%</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -51,7 +43,8 @@
                                                     <span class="text-normal">{{ $t(data[id].resource2) }}</span>
                                                 </div>
                                                 <div class="col-auto small">
-                                                    <span class="text-success">+25%</span>
+                                                    <span v-if="data[id].donor == false" class="text-success">+25%</span>
+                                                    <span v-if="data[id].donor == true" class="fw-bold text-donor">+50%</span>
                                                 </div>
                                             </div>
                                         </div>

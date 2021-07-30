@@ -9,11 +9,15 @@
                     <span class="text-lowercase">x</span>{{ mod }}
                 </div>
                 <div v-if="id && id == 'segment'" class="col text-end">
+                    <span class="me-1">{{ $t('max') }}</span>
+                    <span class="me-3">{{ numeralFormat(maxBuildable) }}</span>
                     <button @click="$root.segmentModal.show();" aria-label="Calculator">
                         <i class="fas fa-fw fa-calculator"></i>
                     </button>
                 </div>
                 <div v-if="id && calc" class="col text-end">
+                    <span class="me-1">{{ $t('max') }}</span>
+                    <span class="me-3">{{ numeralFormat(maxBuildable) }}</span>
                     <button @click="$root.calcId=id; $root.calcModal.show();" aria-label="Calculator">
                         <i class="fas fa-fw fa-calculator"></i>
                     </button>
@@ -22,13 +26,13 @@
         </div>
         <div v-for="cost in costs" :key="cost.id" class="row g-1">
             <div class="col">
-                <button class="text-light small" @click="if (cost.id != 'segment' && data[cost.id].unlocked == true) { setActivePane(cost.id + 'Pane'); }">
+                <button class="small" @click="if (cost.id != 'segment' && data[cost.id].unlocked == true) { setActivePane(cost.id + 'Pane'); }">
                     <div class="row g-1">
                         <div class="col-auto d-flex align-items-center">
                             <img :src="require(`../assets/interface/${cost.id}.png`)" width="12" height="12" :alt="$t(cost.id) + ' icon'" />
                         </div>
                         <div class="col">
-                            <span class="text-light">{{ $t(cost.id) }}</span>
+                            <span class="text-normal">{{ $t(cost.id) }}</span>
                         </div>
                     </div>
                 </button>
@@ -48,7 +52,7 @@
             <div class="col-auto text-end" style="width:75px">
                 <small v-if="(!cost.timer && cost.timer != 0) || cost.timer < 0" class="text-normal">---</small>
                 <small v-if="cost.timer == 0" class="text-success"><i class="fas fa-fw fa-check"></i></small>
-                <small v-if="cost.timer > 0 && cost.timer <= (3600 * 24 * 2)" class="text-timer" role="timer">{{ numeralFormat(cost.timer, '00:00:00') }}</small>
+                <small v-if="cost.timer > 0 && cost.timer <= (3600 * 24 * 2)" class="text-timer" role="timer"><timer :value="cost.timer" /></small>
                 <small v-if="cost.timer > (3600 * 24 * 2)" class="text-timer">{{ $t('bigTimer') }}</small>
             </div>
         </div>
@@ -58,12 +62,35 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
 
+import Timer from './Timer.vue'
+
 export default {
+    components: {
+        'timer': Timer,
+    },
     props: [ 'costs', 'mod', 'id', 'calc' ],
     computed: {
         ...mapState([
             'data', 'displayEmcShortcut'
         ]),
+        maxBuildable: function() {
+            
+            let factor = 0
+            if (this.data[this.id].costType == 'EXPONENTIAL') factor = 1.1
+            else if (this.data[this.id].costType == 'DYSON') factor = 1.02
+            else if (this.data[this.id].costType == 'DOUBLE') factor = 2
+            
+            let result = 1000000
+            this.costs.forEach(cost => {
+                
+                if (result == 0) return
+                
+                let max = Math.floor(Math.log(((this.data[cost.id].count * (factor - 1)) / cost.count) + 1) / Math.log(factor))
+                if (max < result) { result = max }
+            })
+            
+            return result
+        },
     },
     methods: {
         ...mapMutations([
@@ -77,7 +104,7 @@ export default {
         },
         isEmcResource(data, emcId) {
             return !!data[emcId]
-        }
+        },
     },
 }
 </script>

@@ -2,15 +2,16 @@
 
     <div v-if="!loaded" id="loadScreen">
         <div class="row row-cols-1 g-2 justify-content-center">
-            <div class="col text-center"><h1 class="text-light">NG 太空公司</h1></div>
+            <div class="col text-center"><h1 class="text-light">NG Space Company</h1></div>
             <div class="col text-center"><img id="loadLogo" style="width:25%; height:auto;" src="https://ngspacecompany.exileng.com/whiteLogo.png" alt="Game logo" /></div>
-            <div class="col text-center"><h5 class="text-light">网状样条...</h5></div>
+            <div class="col text-center"><h5 class="text-light">Reticulating Splines...</h5></div>
         </div>
     </div>
 
     <div v-if="loaded" id="gameScreen">
         <div id="sidebar" :class="{ 'open':sidebarOpen }" role="navigation">
             <top-header class="px-2">
+            
                 <div class="col-auto">
                     <img src="https://ngspacecompany.exileng.com/whiteLogo.png" width="42" height="42" alt="Game logo" />
                 </div>
@@ -18,7 +19,7 @@
                 <div class="col text-truncate px-0">
                     <span class="h5 text-light mb-0">{{ companyName }} Company</span>
                 </div>
-
+                
                 <div class="col-auto px-0">
                     <button class="btn p-1" @click="changeLogModal.show();">
                         <span class="text-normal">{{ currentRelease }}</span>
@@ -30,14 +31,14 @@
                         <i class="fas fa-fw fa-times"></i>
                     </button>
                 </div>
-
+                
             </top-header>
             <inner-content data-simplebar class="pe-3">
                 <div class="pt-2 pb-3 ps-1">
                     <div class="row gx-2 gy-3 row-cols-1">
-
+                    
                         <sidenav-item v-if="showRoadmap" id="helpPane" icon="help.png" unlocked="true" />
-
+                        
                         <sidenav-group id="pinnedHeading" :unlocked="displayPinnedItems == true">
                             <div v-for="pane in pinned" :key="pane.id">
                                 <sidenav-item v-if="pane.resId != 'dyson' && pane.resId != 'emc' && pane.resId != 'technologies'" :id="pane.id" :icon="pane.icon" unlocked="true" :prod="data[pane.resId].prod" :count="pane.resId" :storage="getStorageCap(pane.resId)" :cap="data[pane.resId].storage" :problem="data[pane.resId].problem" :buildingStorageId="pane.buildingStorageId" />
@@ -46,18 +47,18 @@
                                 <sidenav-item v-if="pane.resId == 'technologies'" :id="pane.id" :icon="pane.icon" unlocked="true" />
                             </div>
                         </sidenav-group>
-
+                        
                         <sidenav-group id="energyHeading" :unlocked="data['energy'].unlocked">
                             <sidenav-item id="energyPane" icon="energy.png" :unlocked="data['energy'].unlocked" :prod="data['energy'].prod" :problem="data['energy'].problem" />
                             <sidenav-item id="batteryPane" icon="battery.png" :unlocked="data['energy'].unlocked" count="energy" :storage="getStorageCap('energy')" :cap="data['energy'].storage" />
                         </sidenav-group>
-
+                        
                         <sidenav-group id="fabricatedHeading" :unlocked="data['carbon'].unlocked">
                             <sidenav-item id="plasmaPane" icon="plasma.png" :unlocked="data['plasma'].unlocked" :prod="data['plasma'].prod" count="plasma" :storage="getStorageCap('plasma')" :cap="data['plasma'].storage" :problem="data['plasma'].problem" />
                             <sidenav-item id="meteoritePane" icon="meteorite.png" :unlocked="data['meteorite'].unlocked" :prod="data['meteorite'].prod" count="meteorite" :storage="getStorageCap('meteorite')" :cap="data['meteorite'].storage" :problem="data['meteorite'].problem" buildingStorageId="meteoriteS1" />
                             <sidenav-item id="carbonPane" icon="carbon.png" :unlocked="data['carbon'].unlocked" :prod="data['carbon'].prod" count="carbon" :storage="getStorageCap('carbon')" :cap="data['carbon'].storage" :problem="data['carbon'].problem" buildingStorageId="carbonS1" />
                         </sidenav-group>
-
+    
                         <sidenav-group id="earthResourcesHeading" :unlocked="data['metal'].unlocked">
                             <sidenav-item id="oilPane" icon="oil.png" :unlocked="data['oil'].unlocked" :prod="data['oil'].prod" count="oil" :storage="getStorageCap('oil')" :cap="data['oil'].storage" buildingStorageId="oilS1" />
                             <sidenav-item id="metalPane" icon="metal.png" :unlocked="data['metal'].unlocked" :prod="data['metal'].prod" count="metal" :storage="getStorageCap('metal')" :cap="data['metal'].storage" buildingStorageId="metalS1" />
@@ -67,7 +68,7 @@
                             <sidenav-item id="uraniumPane" icon="uranium.png" :unlocked="data['uranium'].unlocked" :prod="data['uranium'].prod" count="uranium" :storage="getStorageCap('uranium')" :cap="data['uranium'].storage" buildingStorageId="uraniumS1" />
                             <sidenav-item id="lavaPane" icon="lava.png" :unlocked="data['lava'].unlocked" :prod="data['lava'].prod" count="lava" :storage="getStorageCap('lava')" :cap="data['lava'].storage" buildingStorageId="lavaS1" />
                         </sidenav-group>
-
+    
                         <sidenav-group id="innerResourcesHeading" :unlocked="data['lunarite'].unlocked">
                             <sidenav-item id="lunaritePane" icon="lunarite.png" :unlocked="data['lunarite'].unlocked" :prod="data['lunarite'].prod" count="lunarite" :storage="getStorageCap('lunarite')" :cap="data['lunarite'].storage" buildingStorageId="lunariteS1" />
                             <sidenav-item id="methanePane" icon="methane.png" :unlocked="data['methane'].unlocked" :prod="data['methane'].prod" count="methane" :storage="getStorageCap('methane')" :cap="data['methane'].storage" buildingStorageId="methaneS1" />
@@ -75,39 +76,39 @@
                             <sidenav-item id="goldPane" icon="gold.png" :unlocked="data['gold'].unlocked" :prod="data['gold'].prod" count="gold" :storage="getStorageCap('gold')" :cap="data['gold'].storage" buildingStorageId="goldS1" />
                             <sidenav-item id="silverPane" icon="silver.png" :unlocked="data['silver'].unlocked" :prod="data['silver'].prod" count="silver" :storage="getStorageCap('silver')" :cap="data['silver'].storage" buildingStorageId="silverS1" />
                         </sidenav-group>
-
+    
                         <sidenav-group id="outerResourcesHeading" :unlocked="data['hydrogen'].unlocked || data['helium'].unlocked || data['ice'].unlocked">
                             <sidenav-item id="hydrogenPane" icon="hydrogen.png" :unlocked="data['hydrogen'].unlocked" :prod="data['hydrogen'].prod" count="hydrogen" :storage="getStorageCap('hydrogen')" :cap="data['hydrogen'].storage" buildingStorageId="hydrogenS1" />
                             <sidenav-item id="heliumPane" icon="helium.png" :unlocked="data['helium'].unlocked" :prod="data['helium'].prod" count="helium" :storage="getStorageCap('helium')" :cap="data['helium'].storage" buildingStorageId="heliumS1" />
                             <sidenav-item id="icePane" icon="ice.png" :unlocked="data['ice'].unlocked" :prod="data['ice'].prod" count="ice" :storage="getStorageCap('ice')" :cap="data['ice'].storage" buildingStorageId="iceS1" />
                         </sidenav-group>
-
+    
                         <sidenav-group id="researchesHeading" :unlocked="data['science'].unlocked">
                             <sidenav-item id="sciencePane" icon="science.png" :unlocked="data['science'].unlocked" :prod="data['science'].prod" count="science" />
                             <sidenav-item id="technologiesPane" icon="technologies.png" :unlocked="data['science'].unlocked" />
                         </sidenav-group>
-
+    
                         <sidenav-group id="solSytemHeading" :unlocked="data['fuel'].unlocked">
                             <sidenav-item id="fuelPane" icon="fuel.png" :unlocked="data['fuel'].unlocked" :prod="data['fuel'].prod" count="fuel" />
                             <sidenav-item id="rocketPane" icon="rocket.png" :unlocked="data['rocket1'].unlocked" :done="data['rocket2'].count > 0" doneText="launched" />
                             <sidenav-item id="innerSolarSystemPane" icon="innerSolarSystem.png" :unlocked="data['moon'].unlocked" :done="data['wonderStation'].count > 0" doneText="explored" />
                             <sidenav-item id="outerSolarSystemPane" icon="outerSolarSystem.png" :unlocked="data['jupiter'].unlocked" :done="data['solCenter1'].count > 0" doneText="explored" />
                         </sidenav-group>
-
+    
                         <sidenav-group id="wondersHeading" :unlocked="data['wonderPrecious0'].unlocked">
                             <sidenav-item id="wonderStationPane" icon="wonderStation.png" :unlocked="data['wonderPrecious0'].unlocked" :done="data['wonderPrecious0'].count > 0 && data['wonderEnergetic0'].count > 0 && data['wonderTechnological0'].count > 0 && data['wonderMeteorite0'].count > 0" doneText="done" />
                             <sidenav-item id="floor1Pane" icon="floor1.png" :unlocked="data['wonderPrecious1'].unlocked || data['wonderEnergetic1'].unlocked || data['wonderTechnological1'].unlocked || data['wonderMeteorite1'].unlocked" :done="data['wonderPrecious1'].count > 0 && data['wonderEnergetic1'].count > 0 && data['wonderTechnological1'].count > 0 && data['wonderMeteorite1'].count > 0" doneText="done" />
                             <sidenav-item id="floor2Pane" icon="floor2.png" :unlocked="data['wonderComm'].unlocked" :done="data['wonderComm'].count > 0 && data['wonderSpaceship'].count > 0 && data['wonderAntimatter'].count > 0 && data['wonderPortal'].count > 0" doneText="done" />
                             <sidenav-item id="floor3Pane" icon="floor3.png" :unlocked="data['wonderStargate'].unlocked" :done="data['wonderStargate'].count > 0" doneText="done" />
                         </sidenav-group>
-
+    
                         <sidenav-group id="solCenterHeading" :unlocked="data['techPlasma0'].unlocked">
                             <sidenav-item id="solCenterPane" icon="solCenter.png" :unlocked="data['techPlasma0'].unlocked" :done="data['techPlasma0'].count > 0 && data['techEmc0'].count > 0 && data['techDyson0'].count > 0" doneText="done" />
                             <sidenav-item id="emcPane" icon="emc.png" :unlocked="data['emc'].unlocked" />
                             <sidenav-item id="dysonPane" icon="dyson.png" :unlocked="data['segment'].unlocked" />
                             <sidenav-item id="nanoswarmPane" icon="nanoswarm.png" :unlocked="data['nanoswarm'].unlocked" />
                         </sidenav-group>
-
+    
                         <sidenav-group id="interstellarHeading" :unlocked="data['radarT1'].unlocked || data['antimatter'].unlocked || data['spaceship'].unlocked || data['shipT1'].unlocked">
                             <sidenav-item id="antimatterPane" icon="antimatter.png" :unlocked="data['antimatter'].unlocked" :prod="data['antimatter'].prod" count="antimatter" :storage="getStorageCap('antimatter')" :cap="data['antimatter'].storage" />
                             <sidenav-item id="communicationPane" icon="communication.png" :unlocked="data['radarT1'].unlocked" />
@@ -121,7 +122,7 @@
                             <sidenav-item id="interstellarMovitonPane" icon="moviton.png" :unlocked="data['spaceship'].count > 0" :opinion="data['moviton'].opinion" />
                             <sidenav-item id="interstellarOverlordPane" icon="overlord.png" :unlocked="data['overlordProgram'].count > 0" />
                         </sidenav-group>
-
+    
                         <sidenav-group id="stargazeHeading" :unlocked="data['darkmatter'].unlocked">
                             <sidenav-item id="darkmatterPane" icon="darkmatter.png" :unlocked="data['darkmatter'].unlocked" count="darkmatter" :potential="getPotentialDM" />
                             <sidenav-item id="stargazeCarnelianPane" icon="carnelian.png" :unlocked="data['darkmatter'].unlocked" :opinion="data['carnelian'].opinion" />
@@ -131,20 +132,20 @@
                             <sidenav-item id="stargazeMovitonPane" icon="moviton.png" :unlocked="data['darkmatter'].unlocked" :opinion="data['moviton'].opinion" />
                             <sidenav-item id="stargazeOverlordPane" icon="overlord.png" :unlocked="data['darkmatter'].unlocked" :opinion="data['overlord'].opinion" />
                         </sidenav-group>
-
+                        
                         <sidenav-group id="enlightenmentHeading" :unlocked="data['ultrite'].unlocked">
                             <sidenav-item id="ultritePane" icon="ultrite.png" :unlocked="data['ultrite'].unlocked" count="ultrite" :potential="getPotentialUL" />
                             <sidenav-item id="titansPane" icon="titans.png" :unlocked="data['ultrite'].unlocked" />
                             <sidenav-item id="upgradesPane" icon="upgrades.png" :unlocked="data['ultrite'].unlocked" />
                         </sidenav-group>
-
+                        
                     </div>
                 </div>
             </inner-content>
         </div>
         <div id="page">
             <top-header>
-
+            
                 <div class="col-auto d-lg-none position-relative">
                     <button @click="sidebarOpen = true;">
                         <div v-if="hasNotif" class="position-absolute top-0 end-0" style="line-height:1">
@@ -153,19 +154,19 @@
                         <img :src="require('./assets/whiteLogo.png')" width="36" height="36" alt="Game logo" />
                     </button>
                 </div>
-
+                
                 <div class="col-auto ms-auto">
                     <a href="https://discord.gg/3UkgeeT9CV" target="_blank" data-bs-toggle="tooltip" data-bs-placement="left" title="Discord">
                         <img :src="require('./assets/interface/discord.png')" width="16" height="16" alt="Discord icon" />
                     </a>
                 </div>
-
+                
                 <div class="col-auto" data-bs-toggle="tooltip" data-bs-placement="left" :title="$t('donatingPane')">
                     <button @click="setActivePane('donatingPane')">
                         <img :src="require('./assets/interface/donating.png')" width="16" height="16" alt="Donating" />
                     </button>
                 </div>
-
+                
                 <div class="col-auto position-relative" data-bs-toggle="tooltip" data-bs-placement="left" :title="$t('achievementPane')">
                     <button @click="setActivePane('achievementPane')">
                         <div v-if="isNotif('achievementPane')" class="position-absolute top-0 end-0" style="line-height:1">
@@ -174,26 +175,19 @@
                         <img :src="require('./assets/interface/trophy.png')" width="16" height="16" alt="Achievements" />
                     </button>
                 </div>
-
+                
                 <div class="col-auto" data-bs-toggle="tooltip" data-bs-placement="left" :title="$t('rankPane')">
                     <button @click="setActivePane('rankPane')">
                         <img :src="require('./assets/interface/rank.png')" width="16" height="16" alt="Leaderboard" />
                     </button>
                 </div>
-
+                
                 <div class="col-auto" data-bs-toggle="tooltip" data-bs-placement="left" :title="$t('language')">
                     <button id="dropdownLanguageButton" class="text-normal" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Language">
-                      <span v-if="locale == 'chs'" class="flag-icon flag-icon-cn rounded"></span>
                         <span v-if="locale == 'en'" class="flag-icon flag-icon-gb rounded"></span>
                         <span v-if="locale == 'fr'" class="flag-icon flag-icon-fr rounded"></span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguageButton">
-                      <li>
-                        <button class="dropdown-item cursor-hover" @click="changeLocale('chs')">
-                          <span class="flag-icon flag-icon-cn rounded me-2"></span>
-                          中文
-                        </button>
-                      </li>
                         <li>
                             <button class="dropdown-item" @click="changeLocale('en')">
                                 <span class="flag-icon flag-icon-gb rounded me-2"></span>
@@ -208,13 +202,13 @@
                         </li>
                     </ul>
                 </div>
-
+                
                 <div class="col-auto" data-bs-toggle="tooltip" data-bs-placement="left" :title="$t('settingsPane')">
                     <button @click="setActivePane('settingsPane')">
                         <img :src="require('./assets/interface/cog.png')" width="16" height="16" alt="Settings" />
                     </button>
                 </div>
-
+                
                 <div class="col-auto" data-bs-toggle="tooltip" data-bs-placement="left" :title="$t('aboutPane')">
                     <button @click="setActivePane('aboutPane')">
                         <img :src="require('./assets/interface/about.png')" width="16" height="16" alt="About" />
@@ -223,15 +217,15 @@
 
             </top-header>
             <inner-content data-simplebar role="main">
-
+            
                 <div v-if="ghLatestRelease && ghLatestRelease != currentRelease" class="alert alert-warning text-center border-0 rounded-0 mb-0" role="alert">
                     <small>{{ $t('ghLatestVersion') }}</small>
                     <small class="mx-2">{{ ghLatestRelease }}</small>
                     <button class="btn" @click="onRefresh()">{{ $t('update') }}</button>
                 </div>
-
+                
                 <div class="tab-content container pt-3 px-2" style="padding-bottom: 65px;">
-
+                    
                     <!-- ENERGY PANE -->
                     <pane id="energyPane" icon="energy.png" :descs="['energyPane_desc']" pinnable="energy">
                         <resource id="energy" />
@@ -242,7 +236,7 @@
                         <buildable id="energyT5" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderEnergetic1" />
                         <buildable id="energyT6" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="jupiter" />
                     </pane>
-
+                    
                     <!-- BATTERY PANE -->
                     <pane id="batteryPane" icon="battery.png" :descs="['batteryPane_desc']">
                         <buildable id="energyS1" btnText="build" collapse="true" unlocker="techEnergyStorage1" />
@@ -252,7 +246,7 @@
                         <buildable id="energyS5" btnText="build" collapse="true" unlocker="techEnergyStorage5" />
                         <buildable id="energyS6" btnText="build" collapse="true" unlocker="techEnergyStorage6" />
                     </pane>
-
+                    
                     <!-- PLASMA PANE -->
                     <pane id="plasmaPane" icon="plasma.png" :descs="['plasmaPane_desc']" pinnable="plasma">
                         <resource id="plasma" />
@@ -265,7 +259,7 @@
                         <buildable id="plasmaS3" btnText="build" collapse="true" unlocker="techPlasmaStorage3" />
                         <buildable id="plasmaS4" btnText="build" collapse="true" unlocker="techPlasmaStorage4" />
                     </pane>
-
+                    
                     <!-- METEORITE PANE -->
                     <pane id="meteoritePane" icon="meteorite.png" :descs="['meteoritePane_desc']" pinnable="meteorite" shortcutBuildingStorageId="meteoriteS1">
                         <resource id="meteorite" />
@@ -275,7 +269,7 @@
                         <buildable id="meteoriteT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techMeteorite3" />
                         <buildable id="meteoriteT4" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techMeteorite4" />
                     </pane>
-
+                    
                     <!-- CARBON PANE -->
                     <pane id="carbonPane" icon="carbon.png" :descs="['carbonPane_desc']" pinnable="carbon" shortcutBuildingStorageId="carbonS1">
                         <resource id="carbon" />
@@ -286,7 +280,7 @@
                         <buildable id="carbonT4" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderMeteorite1" />
                         <buildable id="carbonT5" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier5" />
                     </pane>
-
+                    
                     <!-- OIL PANE -->
                     <pane id="oilPane" icon="oil.png" :descs="['oilPane_desc']" pinnable="oil" shortcutBuildingStorageId="oilS1">
                         <resource id="oil" />
@@ -297,7 +291,7 @@
                         <buildable id="oilT4" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderMeteorite1" />
                         <buildable id="oilT5" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier5" />
                     </pane>
-
+                    
                     <!-- METAL PANE -->
                     <pane id="metalPane" icon="metal.png" :descs="['metalPane_desc']" pinnable="metal" shortcutBuildingStorageId="metalS1">
                         <resource id="metal" />
@@ -308,7 +302,7 @@
                         <buildable id="metalT4" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderMeteorite1" />
                         <buildable id="metalT5" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier5" />
                     </pane>
-
+                    
                     <!-- GEM PANE -->
                     <pane id="gemPane" icon="gem.png" :descs="['gemPane_desc']" pinnable="gem" shortcutBuildingStorageId="gemS1">
                         <resource id="gem" />
@@ -319,7 +313,7 @@
                         <buildable id="gemT4" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderMeteorite1" />
                         <buildable id="gemT5" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier5" />
                     </pane>
-
+                    
                     <!-- WOOD PANE -->
                     <pane id="woodPane" icon="wood.png" :descs="['woodPane_desc']" pinnable="wood" shortcutBuildingStorageId="woodS1">
                         <resource id="wood" />
@@ -330,7 +324,7 @@
                         <buildable id="woodT4" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderMeteorite1" />
                         <buildable id="woodT5" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier5" />
                     </pane>
-
+                    
                     <!-- SILICON PANE -->
                     <pane id="siliconPane" icon="silicon.png" :descs="['siliconPane_desc']" pinnable="silicon" shortcutBuildingStorageId="siliconS1">
                         <resource id="silicon" />
@@ -341,7 +335,7 @@
                         <buildable id="siliconT4" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderMeteorite1" />
                         <buildable id="siliconT5" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier5" />
                     </pane>
-
+                    
                     <!-- URANIUM PANE -->
                     <pane id="uraniumPane" icon="uranium.png" :descs="['uraniumPane_desc']" pinnable="uranium" shortcutBuildingStorageId="uraniumS1">
                         <resource id="uranium" />
@@ -352,7 +346,7 @@
                         <buildable id="uraniumT4" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderMeteorite1" />
                         <buildable id="uraniumT5" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier5" />
                     </pane>
-
+                    
                     <!-- LAVA PANE -->
                     <pane id="lavaPane" icon="lava.png" :descs="['lavaPane_desc']" pinnable="lava" shortcutBuildingStorageId="lavaS1">
                         <resource id="lava" />
@@ -363,7 +357,7 @@
                         <buildable id="lavaT4" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderMeteorite1" />
                         <buildable id="lavaT5" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier5" />
                     </pane>
-
+                    
                     <!-- LUNARITE PANE -->
                     <pane id="lunaritePane" icon="lunarite.png" :descs="['lunaritePane_desc']" pinnable="lunarite" shortcutBuildingStorageId="lunariteS1">
                         <resource id="lunarite" />
@@ -374,7 +368,7 @@
                         <buildable id="lunariteT4" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderMeteorite1" />
                         <buildable id="lunariteT5" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier5" />
                     </pane>
-
+                    
                     <!-- METHANE PANE -->
                     <pane id="methanePane" icon="methane.png" :descs="['methanePane_desc']" pinnable="methane" shortcutBuildingStorageId="methaneS1">
                         <resource id="methane" />
@@ -385,7 +379,7 @@
                         <buildable id="methaneT4" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderMeteorite1" />
                         <buildable id="methaneT5" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier5" />
                     </pane>
-
+                    
                     <!-- TITANIUM PANE -->
                     <pane id="titaniumPane" icon="titanium.png" :descs="['titaniumPane_desc']" pinnable="titanium" shortcutBuildingStorageId="titaniumS1">
                         <resource id="titanium" />
@@ -396,7 +390,7 @@
                         <buildable id="titaniumT4" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderMeteorite1" />
                         <buildable id="titaniumT5" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier5" />
                     </pane>
-
+                    
                     <!-- GOLD PANE -->
                     <pane id="goldPane" icon="gold.png" :descs="['goldPane_desc']" pinnable="gold" shortcutBuildingStorageId="goldS1">
                         <resource id="gold" />
@@ -407,7 +401,7 @@
                         <buildable id="goldT4" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderMeteorite1" />
                         <buildable id="goldT5" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier5" />
                     </pane>
-
+                    
                     <!-- SILVER PANE -->
                     <pane id="silverPane" icon="silver.png" :descs="['silverPane_desc']" pinnable="silver" shortcutBuildingStorageId="silverS1">
                         <resource id="silver" />
@@ -418,7 +412,7 @@
                         <buildable id="silverT4" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderMeteorite1" />
                         <buildable id="silverT5" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier5" />
                     </pane>
-
+                    
                     <!-- HYDROGEN PANE -->
                     <pane id="hydrogenPane" icon="hydrogen.png" :descs="['hydrogenPane_desc']" pinnable="hydrogen" shortcutBuildingStorageId="hydrogenS1">
                         <resource id="hydrogen" />
@@ -429,7 +423,7 @@
                         <buildable id="hydrogenT4" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderMeteorite1" />
                         <buildable id="hydrogenT5" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier5" />
                     </pane>
-
+                    
                     <!-- HELIUM PANE -->
                     <pane id="heliumPane" icon="helium.png" :descs="['heliumPane_desc']" pinnable="helium" shortcutBuildingStorageId="heliumS1">
                         <resource id="helium" />
@@ -440,7 +434,7 @@
                         <buildable id="heliumT4" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderMeteorite1" />
                         <buildable id="heliumT5" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier5" />
                     </pane>
-
+                    
                     <!-- ICE PANE -->
                     <pane id="icePane" icon="ice.png" :descs="['icePane_desc']" pinnable="ice" shortcutBuildingStorageId="iceS1">
                         <resource id="ice" />
@@ -451,7 +445,7 @@
                         <buildable id="iceT4" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderMeteorite1" />
                         <buildable id="iceT5" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier5" />
                     </pane>
-
+                    
                     <!-- SCIENCE PANE -->
                     <pane id="sciencePane" icon="science.png" :descs="['sciencePane_desc']" pinnable="science">
                         <buildable id="scienceT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
@@ -460,7 +454,7 @@
                         <buildable id="scienceT4" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techScience4" />
                         <buildable id="scienceT5" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techScience5" />
                     </pane>
-
+                    
                     <!-- TECHNOLOGIES PANE -->
                     <pane id="technologiesPane" icon="technologies.png" :descs="['technologiesPane_desc']" pinnable="technologies">
                         <buildable v-if="!(showDoneTechs == false && data['techStorage'].count > 0)" id="techStorage" btnText="unlock" />
@@ -498,7 +492,7 @@
                         <buildable id="boostEnergy" btnText="boost" />
                         <buildable id="boostEnergyStorage" btnText="boost" />
                     </pane>
-
+                    
                     <!-- FUEL PANE -->
                     <pane id="fuelPane" icon="fuel.png" :descs="['fuelPane_desc']" pinnable="fuel">
                         <resource id="fuel" />
@@ -506,13 +500,13 @@
                         <buildable id="fuelT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techFuel2" />
                         <buildable id="fuelT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techFuel3" />
                     </pane>
-
+                    
                     <!-- ROCKET PANE -->
                     <pane id="rocketPane" icon="rocket.png" :descs="['rocketPane_desc']">
                         <buildable id="rocket1" btnText="build" />
                         <buildable id="rocket2" btnText="launch" unlocker="rocket1" />
                     </pane>
-
+                    
                     <!-- INNER SOLAR SYSTEM PANE -->
                     <pane id="innerSolarSystemPane" icon="innerSolarSystem.png">
                         <buildable id="moon" btnText="explore" />
@@ -562,14 +556,14 @@
                     <pane id="floor3Pane" icon="floor3.png">
                         <buildable id="wonderStargate" btnText="activate" />
                     </pane>
-
+                    
                     <!-- SOL CENTER PANE -->
                     <pane id="solCenterPane" icon="solCenter.png">
                         <buildable id="techPlasma0" btnText="unlock" />
                         <buildable id="techEmc0" btnText="unlock" />
                         <buildable id="techDyson0" btnText="unlock" />
                     </pane>
-
+                    
                     <!-- EMC PANE -->
                     <pane id="emcPane" icon="emc.png" :descs="['emcPane_desc']" pinnable="emc">
                         <card checked="true">
@@ -628,7 +622,7 @@
                             </div>
                         </card>
                     </pane>
-
+                    
                     <!-- DYSON PANE -->
                     <pane id="dysonPane" icon="dyson.png" :descs="['dysonPane_desc']" pinnable="dyson">
                         <buildable id="segment" btnText="build" collapse="true" />
@@ -636,24 +630,24 @@
                         <buildable id="dysonT2" btnText="build" collapse="true" />
                         <buildable id="dysonT3" btnText="build" collapse="true" />
                     </pane>
-
+                    
                     <!-- NANOSWARM PANE -->
                     <pane id="nanoswarmPane" icon="nanoswarm.png">
                         <buildable id="nanoswarm" btnText="build" />
                     </pane>
-
+                    
                     <!-- ANTIMATTER PANE -->
                     <pane id="antimatterPane" icon="antimatter.png" :descs="['antimatterPane_desc']" pinnable="antimatter">
                         <resource id="antimatter" />
                         <buildable id="antimatterT1" btnText="build" />
                     </pane>
-
+                    
                     <!-- COMMUNICATION PANE -->
                     <pane id="communicationPane" icon="communication.png" :descs="['communicationPane_desc']">
                         <buildable id="radarT1" btnText="build" />
                         <buildable id="radarT2" btnText="build" />
                     </pane>
-
+                    
                     <!-- SPACESHIP PANE -->
                     <pane id="spaceshipPane" icon="spaceship.png" :descs="['spaceshipPane_desc']">
                         <buildable id="spaceship" btnText="build" />
@@ -661,7 +655,7 @@
                         <buildable id="engine" btnText="build" calc="true" />
                         <buildable id="aero" btnText="build" calc="true" />
                     </pane>
-
+                    
                     <!-- MILITARY PANE -->
                     <pane id="militaryPane" icon="military.png">
                         <fleet id="fleet" />
@@ -671,13 +665,13 @@
                         <buildable id="shipT4" btnText="build" />
                         <buildable id="shipT5" btnText="build" />
                     </pane>
-
+                    
                     <!-- TERRAFORMING PANE -->
                     <pane id="terraformingPane" icon="terraforming.png" :descs="['terraformingPane_desc']">
                         <buildable id="probe" btnText="build" />
                         <buildable id="terraformer" btnText="build" />
                     </pane>
-
+                    
                     <!-- INTERSTELLAR CARNELIAN PANE -->
                     <pane id="interstellarCarnelianPane" icon="carnelian.png" :descs="['interstellarCarnelianPane_desc']">
                         <star id="star301"    /> <star id="star163901" /> <star id="star181901" /> <star id="star151801" /> <star id="star25401"  /> <star id="star146301" />
@@ -687,7 +681,7 @@
                         <star id="star113101" /> <star id="star89101"  /> <star id="star93901"  /> <star id="star79201"  /> <star id="star80501"  /> <star id="star77301"  />
                         <star id="star191701" /> <star id="star199702" /> <star id="star21001"  /> <star id="star178302" /> <star id="star32201"  /> <star id="star74801"  />
                     </pane>
-
+                    
                     <!-- INTERSTELLAR PRASNIAN PANE -->
                     <pane id="interstellarPrasnianPane" icon="prasnian.png" :descs="['interstellarPrasnianPane_desc']">
                         <star id="star401"    /> <star id="star25101"  /> <star id="star207601" /> <star id="star223901" /> <star id="star121101" /> <star id="star136701" />
@@ -697,7 +691,7 @@
                         <star id="star78101"  /> <star id="star123501" /> <star id="star85901"  /> <star id="star18501"  /> <star id="star199801" /> <star id="star141901" />
                         <star id="star5201"   /> <star id="star223701" /> <star id="star166903" /> <star id="star32101"  /> <star id="star77801"  /> <star id="star205201" />
                     </pane>
-
+                    
                     <!-- INTERSTELLAR HYACINITE PANE -->
                     <pane id="interstellarHyacinitePane" icon="hyacinite.png" :descs="['interstellarHyacinitePane_desc']">
                         <star id="star201"    /> <star id="star217101" /> <star id="star166701" /> <star id="star179501" /> <star id="star6501"   /> <star id="star222401" />
@@ -706,7 +700,7 @@
                         <star id="star182101" /> <star id="star178401" /> <star id="star107601" /> <star id="star192101" /> <star id="star24001"  /> <star id="star16601"  />
                         <star id="star27501"  /> <star id="star121601" /> <star id="star212102" /> <star id="star117501" />
                     </pane>
-
+                    
                     <!-- INTERSTELLAR KITRINOS PANE -->
                     <pane id="interstellarKitrinosPane" icon="kitrinos.png" :descs="['interstellarKitrinosPane_desc']">
                         <star id="star501"    /> <star id="star130601" /> <star id="star158101" /> <star id="star224601" /> <star id="star58601"  /> <star id="star10101"  />
@@ -716,7 +710,7 @@
                         <star id="star208702" /> <star id="star85501"  /> <star id="star217202" /> <star id="star180101" /> <star id="star13801"  /> <star id="star37101"  />
                         <star id="star42501"  /> <star id="star80901"  /> <star id="star215902" /> <star id="star190502" /> <star id="star99701"  /> <star id="star176802" />
                     </pane>
-
+                    
                     <!-- INTERSTELLAR MOVITON PANE -->
                     <pane id="interstellarMovitonPane" icon="moviton.png" :descs="['interstellarMovitonPane_desc']">
                         <star id="star701"    /> <star id="star601"    /> <star id="star80101"  /> <star id="star213301" /> <star id="star13601"  /> <star id="star51801"  />
@@ -728,7 +722,7 @@
                         <star id="star76401"  /> <star id="star32301"  /> <star id="star191401" /> <star id="star118301" /> <star id="star166901" /> <star id="star62901"  />
                         <star id="star21601"  /> <star id="star63801"  /> <star id="star187202" />
                     </pane>
-
+                    
                     <!-- INTERSTELLAR OVERLORD PANE -->
                     <pane id="interstellarOverlordPane" icon="overlord.png" :descs="['interstellarOverlordPane_desc']">
                         <card id="overlordStatues">
@@ -751,7 +745,7 @@
                             </div>
                         </card>
                     </pane>
-
+                    
                     <!-- DARKMATTER PANE -->
                     <pane id="darkmatterPane" icon="darkmatter.png" :descs="['darkmatterPane_desc1', 'darkmatterPane_desc2', 'darkmatterPane_desc3', 'darkmatterPane_desc4', 'darkmatterPane_desc5']">
                         <card id="darkmatter" :descs="['darkmatter_desc']" checked="true">
@@ -790,7 +784,7 @@
                             </div>
                         </card>
                     </pane>
-
+                    
                     <!-- STARGAZE CARNELIAN PANE -->
                     <pane id="stargazeCarnelianPane" icon="carnelian.png" :descs="['stargazeCarnelianPane_desc']">
                         <buildable id="upgradeGain" btnText="activate" />
@@ -799,7 +793,7 @@
                         <buildable id="techEnergyStorage6" btnText="activate" />
                         <buildable id="upgradeStorage3" btnText="activate" />
                     </pane>
-
+                    
                     <!-- STARGAZE PRASNIAN PANE -->
                     <pane id="stargazePrasnianPane" icon="prasnian.png" :descs="['stargazePrasnianPane_desc']">
                         <buildable id="techPlasma3" btnText="activate" />
@@ -810,7 +804,7 @@
                         <buildable id="autoEmc" btnText="activate" />
                         <buildable id="techPlasma4" btnText="activate" />
                     </pane>
-
+                    
                     <!-- STARGAZE HYACINITE PANE -->
                     <pane id="stargazeHyacinitePane" icon="hyacinite.png" :descs="['stargazeHyacinitePane_desc']">
                         <buildable id="upgradeScience1" btnText="activate" />
@@ -818,7 +812,7 @@
                         <buildable id="techScience5" btnText="activate" />
                         <buildable id="upgradeEnergyBoost" btnText="activate" />
                     </pane>
-
+                    
                     <!-- STARGAZE KITRINOS PANE -->
                     <pane id="stargazeKitrinosPane" icon="kitrinos.png" :descs="['stargazeKitrinosPane_desc']">
                         <buildable id="upgradeTier1" btnText="activate" />
@@ -827,7 +821,7 @@
                         <buildable id="boostCapital" btnText="activate" />
                         <buildable id="techTier5" btnText="activate" />
                     </pane>
-
+                    
                     <!-- STARGAZE MOVITON PANE -->
                     <pane id="stargazeMovitonPane" icon="moviton.png" :descs="['stargazeMovitonPane_desc']">
                         <buildable id="upgradeFuel1" btnText="activate" />
@@ -836,13 +830,13 @@
                         <buildable id="techMeteorite3" btnText="activate" />
                         <buildable id="techMeteorite4" btnText="activate" />
                     </pane>
-
+                    
                     <!-- STARGAZE OVERLORD PANE -->
                     <pane id="stargazeOverlordPane" icon="overlord.png" :descs="['stargazeOverlordPane_desc']">
                         <buildable id="boostDarkmatter" btnText="activate" />
                         <buildable id="upgradeFaction" btnText="activate" />
                     </pane>
-
+                    
                     <!-- ULTRITE PANE -->
                     <pane id="ultritePane" icon="ultrite.png" :descs="['ultritePane_desc1', 'ultritePane_desc2', 'ultritePane_desc3', 'ultritePane_desc4', 'ultritePane_desc5']">
                         <card id="ultrite" :descs="['ultrite_desc']" checked="true">
@@ -872,7 +866,7 @@
                             </div>
                         </card>
                     </pane>
-
+                    
                     <!-- TITANS PANE -->
                     <pane id="titansPane" icon="titans.png" :descs="['titansPane_desc']">
                         <card id="titans" checked="true">
@@ -915,7 +909,7 @@
                             </div>
                         </card>
                     </pane>
-
+                    
                     <!-- UPGRADES PANE -->
                     <pane id="upgradesPane" icon="upgrades.png">
                         <buildable id="overlordProgram" btnText="activate" />
@@ -926,6 +920,7 @@
                         <buildable id="techAutoStorageUpgrade" btnText="activate" />
                         <buildable id="techNanoswarm0" btnText="activate" />
                     </pane>
+                    
                     <!-- DONATING PANE -->
                     <pane id="donatingPane" icon="donating.png" :descs="['donatingPane_desc1', 'donatingPane_desc2']">
                         <card id="donatingPane_desc3" class="col-12">
@@ -952,7 +947,7 @@
                             </div>
                         </card>
                     </pane>
-
+                    
                     <!-- ACHIEVEMENTS PANE -->
                     <pane id="achievementPane" icon="trophy.png" :descs="['achievementPane_desc']">
                         <card id="currentRank" checked="true">
@@ -1138,7 +1133,7 @@
                             </div>
                         </card>
                     </pane>
-
+                    
                     <!-- HELP PANE -->
                     <pane id="helpPane" icon="help.png" :descs="['helpPane_desc']">
                         <card id="helpStep1Title" :descs="['helpStep1Text1']" :checked="data['science'].unlocked == true">
@@ -1200,7 +1195,7 @@
                             </div>
                         </card>
                     </pane>
-
+                    
                     <!-- OPTIONS PANE -->
                     <pane id="settingsPane" icon="cog.png" :descs="['settingsPane_desc']">
                         <card id="companyName" checked="true">
@@ -1294,7 +1289,7 @@
                             </div>
                         </card>
                     </pane>
-
+                    
                     <!-- ABOUT PANE -->
                     <pane id="aboutPane" icon="about.png" :descs="['aboutPane_desc']">
                         <card id="about1" :descs="['about1_desc1']" checked="true">
@@ -1364,7 +1359,7 @@
                             </div>
                         </card>
                     </pane>
-
+                    
                     <!-- RANK PANE -->
                     <pane id="rankPane" icon="rank.png" :descs="['rankPane_desc']">
                         <card id="account" :checked="token != null">
@@ -1455,7 +1450,7 @@
             </inner-content>
         </div>
         <div class="toast-container position-fixed bottom-0 end-0 me-2">
-
+            
             <!-- SAVING TOAST -->
             <div id="toastAutoSave" class="toast hide fade bg-info" role="alert">
                 <div class="toast-body text-dark">
@@ -1470,7 +1465,7 @@
                     <div class="small">{{ $t('toastAutoSave_text') }}</div>
                 </div>
             </div>
-
+            
             <!-- ACHIEVEMENT TOAST -->
             <div id="toastAchievement" class="toast hide fade bg-success cursor-hover" role="alert">
                 <div class="toast-body text-light">
@@ -1485,7 +1480,7 @@
                     <div class="small" @click="setActivePane('achievementPane')" >{{ $t('toastAchievement_text') }}</div>
                 </div>
             </div>
-
+            
             <!-- SPY TOAST -->
             <div id="toastSpySuccess" class="toast hide fade bg-success" role="alert">
                 <div class="toast-body text-light">
@@ -1513,7 +1508,7 @@
                     <div class="small">{{ $t('toastSpyFailed_text') }}</div>
                 </div>
             </div>
-
+            
             <!-- INVADE TOAST -->
             <div id="toastInvadeSuccess" class="toast hide fade bg-success" role="alert">
                 <div class="toast-body text-light">
@@ -1541,7 +1536,7 @@
                     <div class="small">{{ $t('toastInvadeFailed_text') }}</div>
                 </div>
             </div>
-
+            
             <!-- ABSORB TOAST -->
             <div id="toastAbsorbSuccess" class="toast hide fade bg-success" role="alert">
                 <div class="toast-body text-light">
@@ -1556,10 +1551,10 @@
                     <div class="small">{{ $t('toastAbsorbSuccess_text') }}</div>
                 </div>
             </div>
-
+            
         </div>
     </div>
-
+    
     <!-- SPY MODAL -->
     <div v-if="loaded" id="spyModal" class="modal fade">
         <div class="modal-dialog" role="dialog">
@@ -1641,7 +1636,7 @@
             </div>
         </div>
     </div>
-
+    
     <!-- INVADE MODAL -->
     <div v-if="loaded" id="invadeModal" class="modal fade">
         <div class="modal-dialog" role="dialog">
@@ -1724,7 +1719,7 @@
             </div>
         </div>
     </div>
-
+    
     <!-- ABSORB MODAL -->
     <div v-if="loaded" id="absorbModal" class="modal fade">
         <div class="modal-dialog" role="dialog">
@@ -1751,7 +1746,7 @@
             </div>
         </div>
     </div>
-
+    
     <!-- REBIRTH MODAL -->
     <div v-if="loaded" id="rebirthModal" class="modal fade">
         <div class="modal-dialog" role="dialog">
@@ -1772,7 +1767,7 @@
             </div>
         </div>
     </div>
-
+    
     <!-- ENLIGHTEN MODAL -->
     <div v-if="loaded" id="enlightenModal" class="modal fade">
         <div class="modal-dialog" role="dialog">
@@ -1799,7 +1794,7 @@
             </div>
         </div>
     </div>
-
+    
     <!-- HARD RESET MODAL -->
     <div v-if="loaded" id="hardResetModal" class="modal fade">
         <div class="modal-dialog modal-dialog-scrollable" role="dialog">
@@ -1820,7 +1815,7 @@
             </div>
         </div>
     </div>
-
+    
     <!-- SEGMENT MODAL -->
     <div v-if="loaded" id="segmentModal" class="modal fade">
         <div class="modal-dialog modal-dialog-scrollable" role="dialog">
@@ -1847,7 +1842,7 @@
             </div>
         </div>
     </div>
-
+    
     <!-- CALC MODAL -->
     <div v-if="loaded" id="calcModal" class="modal fade">
         <div class="modal-dialog modal-dialog-scrollable" role="dialog">
@@ -1874,7 +1869,7 @@
             </div>
         </div>
     </div>
-
+    
     <!-- OVERLORD MODAL -->
     <div v-if="loaded" id="overlordModal" class="modal fade">
         <div class="modal-dialog modal-dialog-scrollable" role="dialog">
@@ -1909,7 +1904,7 @@
             </div>
         </div>
     </div>
-
+    
     <!-- CHANGELOG MODAL -->
     <div v-if="loaded" id="changeLogModal" class="modal fade">
         <div class="modal-dialog modal-dialog-scrollable" role="dialog">
@@ -1986,7 +1981,7 @@
             </div>
         </div>
     </div>
-
+    
 </template>
 
 <script>
@@ -2010,12 +2005,12 @@ import { Tooltip, Toast, Modal } from 'bootstrap'
 
 import ghApi from './apis/ghApi.js'
 
-// import axios from 'axios'
+import axios from 'axios'
 import moment from 'moment'
 
 export default {
     components: {
-
+        
         'top-header': Header,
         'inner-content': Content,
         'sidenav-group': SidenavGroup,
@@ -2032,16 +2027,17 @@ export default {
     },
     data() {
         return {
-
+        
             loaded: false,
             sidebarOpen: false,
             defeat: false,
+            
             fastInterval: null,
             slowInterval: null,
             ghInterval: null,
-
+            
             tooltips: [],
-
+            
             toastAutoSave: null,
             toastAchievement: null,
             toastSpySuccess: null,
@@ -2049,7 +2045,7 @@ export default {
             toastInvadeSuccess: null,
             toastInvadeFailed: null,
             toastAbsorbSuccess: null,
-
+            
             showToastAutoSave: true,
             showToastAchievement: true,
             showLockedItems: false,
@@ -2060,10 +2056,10 @@ export default {
             compressed: null,
             newCompanyName: null,
             autoSavingDuration: null,
-
+            
             calcId: 'metal',
             activeStar: 'star201',
-
+            
             spyModal: null,
             invadeModal: null,
             absorbModal: null,
@@ -2075,27 +2071,27 @@ export default {
             enlightenModal: null,
             enlightenSelected: null,
             overlordModal: null,
-
+            
             currentRelease: '1.31.5',
             ghLatestRelease: null,
-
+            
             login: null,
             password: null,
-
+            
             leaderboard_ranks: null,
             leaderboard_stats: null,
-
+            
             selectedEmcAmount: null,
             selectedAutoEmcInterval: null,
             showEmcShortcut: null,
-
+            
             titanSource: null,
             titanDestination: null,
         }
     },
     computed: {
         ...mapState([
-
+        
             'data', 'companyName', 'locale', 'activePane', 'lastUpdateTime', 'autoSaveInterval', 'timeSinceAutoSave', 'rank',
             'resAchievements', 'prodAchievements', 'newAchievement',
             'notifAutoSave', 'notifAchievement', 'displayLockedItems', 'displayPinnedItems', 'displayDoneTechs', 'displayRoadmap',
@@ -2104,7 +2100,7 @@ export default {
             'stats', 'resources', 'pinned', 'titanSwapingCount',
         ]),
         ...mapGetters([
-
+        
             'isNotif', 'hasNotif',
             'getThreat', 'getSpyChance', 'getInvadeChance', 'getStarPower', 'getStarDefense', 'getStarSpeed',
             'getDMWonders', 'getDMSpheres', 'getDMResearches', 'getDMRank', 'getDMSwarms', 'getPotentialDM',
@@ -2112,18 +2108,18 @@ export default {
             'getStorageCap', 'getStatuesCount', 'getCurrentTitan', 'getNotCurrentTitan', 'getOwnedStarCount',
         ]),
     },
-    created() {
+    created() {        
         setTimeout(this.start, 1000)
     },
     methods: {
         ...mapMutations([
-
+        
             'setLocale', 'setActivePane', 'setLastUpdateTime', 'setTimeSinceAutoSave', 'setCompanyName', 'setAutoSaveInterval',
             'setNotifAutoSave', 'setNotifAchievement', 'setDisplayLockedItems', 'setUsername', 'setToken', 'setEmcAmount', 'setTimeSinceAutoEmc', 'setAutoEmcInterval', 'setDisplayEmcShortcut',
             'setDisplayPinnedItems', 'setDisplayDoneTechs', 'setDisplayRoadmap',
         ]),
         ...mapActions([
-
+        
             'initialize', 'load',
             'computeProdValues', 'produceResources', 'updateTimers', 'checkBoosts', 'refreshStorage', 'refreshContext', 'updateAchievements', 'save',
             'setActiveShip', 'spy', 'invade', 'absorb',
@@ -2134,7 +2130,7 @@ export default {
             return moment(date).format(fmt)
         },
         changeLocale(lang) {
-
+        
             if (this.$i18n.locale !== lang) {
                 this.setLocale(lang)
                 this.$i18n.locale = lang
@@ -2144,56 +2140,57 @@ export default {
 
             this.initialize()
             this.load()
-
+            
             this.changeLocale(this.locale)
             this.newCompanyName = this.companyName
             this.autoSavingDuration = this.autoSaveInterval / 1000
             this.login = this.username
             this.selectedEmcAmount = this.emcAmount
             this.selectedAutoEmcInterval = this.autoEmcInterval / 1000
-
+            
             this.fastUpdate()
             this.ghUpdate()
-
+            
             this.fastInterval = setInterval(() => { this.fastUpdate() }, 100)
             this.slowInterval = setInterval(() => { this.slowUpdate() }, 1000)
             this.ghInterval = setInterval(() => { this.ghUpdate() }, 3600000)
-
+        
             this.loaded = true
-
+            
             this.$nextTick(() => {
-
+            
                 let element = null
-
+                
                 element = document.getElementById('toastAutoSave')
                 this.toastAutoSave = new Toast(element)
-                this.showToastAutoSave = this.notifAutoSave
-                this.showToastAchievement = this.notifAchievement
+                this.showToastAutoSave = this.notifAutoSave 
+                this.showToastAchievement = this.notifAchievement 
                 this.showLockedItems = this.displayLockedItems
                 this.showPinnedItems = this.displayPinnedItems
                 this.showDoneTechs = this.displayDoneTechs
                 this.showRoadmap = this.displayRoadmap
                 this.showEmcShortcut = this.displayEmcShortcut
+                
                 element = document.getElementById('toastAchievement')
                 this.toastAchievement = new Toast(element)
-
+                
                 element = document.getElementById('toastSpySuccess')
                 this.toastSpySuccess = new Toast(element)
-
+                
                 element = document.getElementById('toastSpyFailed')
                 this.toastSpyFailed = new Toast(element)
-
+                
                 element = document.getElementById('toastInvadeSuccess')
                 this.toastInvadeSuccess = new Toast(element)
-
+                
                 element = document.getElementById('toastInvadeFailed')
                 this.toastInvadeFailed = new Toast(element)
-
+                
                 element = document.getElementById('toastAbsorbSuccess')
                 this.toastAbsorbSuccess = new Toast(element)
-
+            
                 Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]')).forEach(node => this.tooltips.push(new Tooltip(node)))
-
+                
                 element = document.getElementById('spyModal')
                 this.spyModal = new Modal(element)
 
@@ -2202,62 +2199,62 @@ export default {
 
                 element = document.getElementById('absorbModal')
                 this.absorbModal = new Modal(element)
-
+                
                 element = document.getElementById('rebirthModal')
                 this.rebirthModal = new Modal(element)
-
+                
                 element = document.getElementById('changeLogModal')
                 this.changeLogModal = new Modal(element)
-
+                
                 element = document.getElementById('hardResetModal')
                 this.hardResetModal = new Modal(element)
-
+                
                 element = document.getElementById('segmentModal')
                 this.segmentModal = new Modal(element)
-
+                
                 element = document.getElementById('calcModal')
                 this.calcModal = new Modal(element)
-
+                
                 element = document.getElementById('enlightenModal')
                 this.enlightenModal = new Modal(element)
-
+                
                 element = document.getElementById('overlordModal')
                 this.overlordModal = new Modal(element)
-            })
+            })            
         },
         fastUpdate() {
-
+        
             let currentTime = new Date().getTime()
             let delta = (currentTime - this.lastUpdateTime) / 1000
             if (delta <= 0) {
                 this.setLastUpdateTime(currentTime)
                 return
             }
-
+            
             if (delta < (1 / 60)) return
-
+            
             this.setLastUpdateTime(currentTime)
             this.setTimeSinceAutoSave(this.timeSinceAutoSave + delta)
             this.setTimeSinceAutoEmc(this.timeSinceAutoEmc + delta)
-
+            
             this.computeProdValues()
             this.performAutoStorageUpgrade()
             this.produceResources(delta)
             this.updateTimers()
             this.checkBoosts()
-
+            
             let autoEmcCount = Math.floor((this.timeSinceAutoEmc * 1000) / this.autoEmcInterval)
             for (let i = 0; i < autoEmcCount; i++) this.performAutoEmc()
             if (autoEmcCount > 0) this.setTimeSinceAutoEmc(0)
-
+            
             this.refreshStorage()
             this.refreshContext()
         },
         slowUpdate() {
-
+            
             this.updateAchievements()
             if (this.newAchievement == true && this.showToastAchievement == true) this.toastAchievement.show()
-
+            
             let timeLeft = this.autoSaveInterval - (this.timeSinceAutoSave * 1000)
             if (this.autoSaveInterval < 0) timeLeft = 1000
             if (timeLeft < 100) {
@@ -2265,28 +2262,28 @@ export default {
                 this.save()
                 this.setTimeSinceAutoSave(1)
                 if (this.showToastAutoSave) this.toastAutoSave.show()
-
+                
                 if (this.token) {
-
-                    // let data = {
-                    //     rank: this.rank,
-                    //     stats: this.stats,
-                    // }
-                    // axios.post('https://ngspacecompany.exileng.com/api/post/', data, { headers: { 'Authorization': 'Token ' +  this.token }})
-                }
-
-                // axios.get('https://ngspacecompany.exileng.com/api/ranks/').then((response) => { this.leaderboard_ranks = response.data })
-                // axios.get('https://ngspacecompany.exileng.com/api/stats/').then((response) => { this.leaderboard_stats = response.data })
-            }
+                    
+                    let data = {
+                        rank: this.rank,
+                        stats: this.stats,
+                    }
+                    axios.post('https://ngspacecompany.exileng.com/api/post/', data, { headers: { 'Authorization': 'Token ' +  this.token }})
+                }   
+                
+                axios.get('https://ngspacecompany.exileng.com/api/ranks/').then((response) => { this.leaderboard_ranks = response.data })
+                axios.get('https://ngspacecompany.exileng.com/api/stats/').then((response) => { this.leaderboard_stats = response.data })
+            }            
         },
         ghUpdate() {
-
+        
             ghApi
                 .get('/repos/ExileNG/NGSpaceCompany/releases/latest')
                 .then((response) => { this.ghLatestRelease = response.data.tag_name })
         },
         exportData() {
-
+            
             let text = localStorage.getItem('ngsavecrypted')
             this.compressed = text
         },
@@ -2294,91 +2291,91 @@ export default {
 
             if (!this.compressed || !this.compressed.trim()) return console.warn('No data to import')
             if (this.compressed.length % 4 !== 0) return console.warn('Data corrupted')
-
+            
             localStorage.setItem('ngsavecrypted', this.compressed)
 
             window.location.reload()
         },
         onSpy() {
-
+        
             this.spy(this.activeStar).then(result => {
                 if (result == true) this.toastSpySuccess.show()
                 else this.toastSpyFailed.show()
             })
         },
         onInvade() {
-
+        
             this.invade(this.activeStar).then(result => {
                 if (result == true) this.toastInvadeSuccess.show()
                 else this.toastInvadeFailed.show()
             })
         },
         onAbsorb() {
-
+        
             this.absorb(this.activeStar).then(result => {
                 if (result == true) this.toastAbsorbSuccess.show()
             })
         },
         onRebirth() {
-
+        
             this.loaded = true
-
+            
             this.rebirth().then(result => {
                 if (result == true) window.location.reload()
             })
         },
         onRefresh() {
-
+        
             this.save()
             this.setTimeSinceAutoSave(1)
-
+            
             window.location.reload()
         },
         onConnect(login, pwd) {
-          console.log(login, pwd)
-            // if (login && login.trim().length > 4 && pwd && pwd.trim().length > 4)
-                // axios.post('https://ngspacecompany.exileng.com/api/register/', { username:login.trim(), password:pwd.trim() })
-                //     .then((response) => {
-                //
-                //         this.setUsername(login.trim())
-                //         this.setToken(response.data.token)
-                //     })
-                //     .catch(() => {
-                //
-                //         axios.post('https://ngspacecompany.exileng.com/api/login/', { username:login.trim(), password:pwd.trim() })
-                //             .then((response) => {
-                //
-                //                 this.setUsername(login.trim())
-                //                 this.setToken(response.data.token)
-                //             })
-                //             .catch((error) => {
-                //
-                //                 console.log(error.response.data)
-                //             })
-                //     })
+            
+            if (login && login.trim().length > 4 && pwd && pwd.trim().length > 4)
+                axios.post('https://ngspacecompany.exileng.com/api/register/', { username:login.trim(), password:pwd.trim() })
+                    .then((response) => {
+                    
+                        this.setUsername(login.trim())
+                        this.setToken(response.data.token)
+                    })
+                    .catch(() => {
+                    
+                        axios.post('https://ngspacecompany.exileng.com/api/login/', { username:login.trim(), password:pwd.trim() })
+                            .then((response) => {
+                    
+                                this.setUsername(login.trim())
+                                this.setToken(response.data.token)
+                            })
+                            .catch((error) => {
+                            
+                                console.log(error.response.data)
+                            })
+                    })
         },
         onDisconnect() {
-
+        
             this.setUsername(null)
             this.setToken(null)
         },
         onHardReset() {
-
+        
             this.loaded = true
-
+            
             localStorage.removeItem('ngsave')
             localStorage.removeItem('ngsavecrypted')
-
+            
             window.location.reload()
         },
         onSave() {
-
+        
             this.save()
             this.setTimeSinceAutoSave(1)
             if (this.showToastAutoSave) this.toastAutoSave.show()
         },
         onEnlighten() {
-
+                        
             this.enlighten(this.enlightenSelected).then(result => {
                 if (result == true) {
                     this.loaded = true
@@ -2389,7 +2386,7 @@ export default {
         },
     },
     beforeUnmount() {
-
+        
         delete this.toastAutoSave
         delete this.toastAchievement
         delete this.toastSpySuccess
@@ -2397,9 +2394,9 @@ export default {
         delete this.toastInvadeSuccess
         delete this.toastInvadeFailed
         delete this.toastAbsorbSuccess
-
+        
         delete this.tooltips
-
+        
         delete this.spyModal
         delete this.invadeModal
         delete this.absorbModal
@@ -2410,6 +2407,7 @@ export default {
         delete this.calcModal
         delete this.enlightenModal
         delete this.overlordModal
+        
         clearInterval(this.fastInterval)
         clearInterval(this.slowInterval)
         clearInterval(this.ghInterval)

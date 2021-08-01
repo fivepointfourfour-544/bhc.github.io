@@ -21,7 +21,7 @@
 
                 <div class="col-auto px-0">
                     <button class="btn p-1" @click="changeLogModal.show();">
-                        <small class="small text-normal">v{{ currentRelease }}</small>
+                        <span class="text-normal">{{ currentRelease }}</span>
                     </button>
                 </div>
 
@@ -32,105 +32,113 @@
                 </div>
 
             </top-header>
-            <inner-content data-simplebar class="pe-2">
-                <div class="row gx-2 gy-3 row-cols-1">
+            <inner-content data-simplebar class="pe-3">
+                <div class="pt-2 pb-3 ps-1">
+                    <div class="row gx-2 gy-3 row-cols-1">
 
-                    <sidenav-item v-if="showRoadmap" id="helpPane" icon="help.png" unlocked="true" />
+                        <sidenav-item v-if="showRoadmap" id="helpPane" icon="help.png" unlocked="true" />
 
-                    <sidenav-group id="pinnedHeading" :unlocked="displayPinnedItems == true">
-                        <sidenav-item v-for="pane in pinned" :key="pane.id" :id="pane.id" :icon="pane.icon" unlocked="true" :prod="data[pane.resId].prod" :count="data[pane.resId].count" :storage="getStorageCap(pane.resId)" :cap="data[pane.resId].storage" :problem="data[pane.resId].problem" :buildingStorageId="pane.buildingStorageId" />
-                    </sidenav-group>
+                        <sidenav-group id="pinnedHeading" :unlocked="displayPinnedItems == true">
+                            <div v-for="pane in pinned" :key="pane.id">
+                                <sidenav-item v-if="pane.resId != 'dyson' && pane.resId != 'emc' && pane.resId != 'technologies'" :id="pane.id" :icon="pane.icon" unlocked="true" :prod="data[pane.resId].prod" :count="pane.resId" :storage="getStorageCap(pane.resId)" :cap="data[pane.resId].storage" :problem="data[pane.resId].problem" :buildingStorageId="pane.buildingStorageId" />
+                                <sidenav-item v-if="pane.resId == 'dyson'" :id="pane.id" :icon="pane.icon" unlocked="true" />
+                                <sidenav-item v-if="pane.resId == 'emc'" :id="pane.id" :icon="pane.icon" unlocked="true" />
+                                <sidenav-item v-if="pane.resId == 'technologies'" :id="pane.id" :icon="pane.icon" unlocked="true" />
+                            </div>
+                        </sidenav-group>
 
-                    <sidenav-group id="energyHeading" :unlocked="data['energy'].unlocked">
-                        <sidenav-item id="energyPane" icon="energy.png" :unlocked="data['energy'].unlocked" :prod="data['energy'].prod" :problem="data['energy'].problem" />
-                        <sidenav-item id="batteryPane" icon="battery.png" :unlocked="data['energy'].unlocked" :count="data['energy'].count" :storage="getStorageCap('energy')" :cap="data['energy'].storage" />
-                    </sidenav-group>
+                        <sidenav-group id="energyHeading" :unlocked="data['energy'].unlocked">
+                            <sidenav-item id="energyPane" icon="energy.png" :unlocked="data['energy'].unlocked" :prod="data['energy'].prod" :problem="data['energy'].problem" />
+                            <sidenav-item id="batteryPane" icon="battery.png" :unlocked="data['energy'].unlocked" count="energy" :storage="getStorageCap('energy')" :cap="data['energy'].storage" />
+                        </sidenav-group>
 
-                    <sidenav-group id="fabricatedHeading" :unlocked="data['carbon'].unlocked">
-                        <sidenav-item id="plasmaPane" icon="plasma.png" :unlocked="data['plasma'].unlocked" :prod="data['plasma'].prod" :count="data['plasma'].count" :storage="getStorageCap('plasma')" :cap="data['plasma'].storage" :problem="data['plasma'].problem" />
-                        <sidenav-item id="meteoritePane" icon="meteorite.png" :unlocked="data['meteorite'].unlocked" :prod="data['meteorite'].prod" :count="data['meteorite'].count" :storage="getStorageCap('meteorite')" :cap="data['meteorite'].storage" :problem="data['meteorite'].problem" buildingStorageId="meteoriteS1" />
-                        <sidenav-item id="carbonPane" icon="carbon.png" :unlocked="data['carbon'].unlocked" :prod="data['carbon'].prod" :count="data['carbon'].count" :storage="getStorageCap('carbon')" :cap="data['carbon'].storage" :problem="data['carbon'].problem" buildingStorageId="carbonS1" />
-                    </sidenav-group>
+                        <sidenav-group id="fabricatedHeading" :unlocked="data['carbon'].unlocked">
+                            <sidenav-item id="plasmaPane" icon="plasma.png" :unlocked="data['plasma'].unlocked" :prod="data['plasma'].prod" count="plasma" :storage="getStorageCap('plasma')" :cap="data['plasma'].storage" :problem="data['plasma'].problem" />
+                            <sidenav-item id="meteoritePane" icon="meteorite.png" :unlocked="data['meteorite'].unlocked" :prod="data['meteorite'].prod" count="meteorite" :storage="getStorageCap('meteorite')" :cap="data['meteorite'].storage" :problem="data['meteorite'].problem" buildingStorageId="meteoriteS1" />
+                            <sidenav-item id="carbonPane" icon="carbon.png" :unlocked="data['carbon'].unlocked" :prod="data['carbon'].prod" count="carbon" :storage="getStorageCap('carbon')" :cap="data['carbon'].storage" :problem="data['carbon'].problem" buildingStorageId="carbonS1" />
+                        </sidenav-group>
 
-                    <sidenav-group id="earthResourcesHeading" :unlocked="data['metal'].unlocked">
-                        <sidenav-item id="oilPane" icon="oil.png" :unlocked="data['oil'].unlocked" :prod="data['oil'].prod" :count="data['oil'].count" :storage="getStorageCap('oil')" :cap="data['oil'].storage" buildingStorageId="oilS1" />
-                        <sidenav-item id="metalPane" icon="metal.png" :unlocked="data['metal'].unlocked" :prod="data['metal'].prod" :count="data['metal'].count" :storage="getStorageCap('metal')" :cap="data['metal'].storage" buildingStorageId="metalS1" />
-                        <sidenav-item id="gemPane" icon="gem.png" :unlocked="data['gem'].unlocked" :prod="data['gem'].prod" :count="data['gem'].count" :storage="getStorageCap('gem')" :cap="data['gem'].storage" buildingStorageId="gemS1" />
-                        <sidenav-item id="woodPane" icon="wood.png" :unlocked="data['wood'].unlocked" :prod="data['wood'].prod" :count="data['wood'].count" :storage="getStorageCap('wood')" :cap="data['wood'].storage" buildingStorageId="woodS1" />
-                        <sidenav-item id="siliconPane" icon="silicon.png" :unlocked="data['silicon'].unlocked" :prod="data['silicon'].prod" :count="data['silicon'].count" :storage="getStorageCap('silicon')" :cap="data['silicon'].storage" buildingStorageId="siliconS1" />
-                        <sidenav-item id="uraniumPane" icon="uranium.png" :unlocked="data['uranium'].unlocked" :prod="data['uranium'].prod" :count="data['uranium'].count" :storage="getStorageCap('uranium')" :cap="data['uranium'].storage" buildingStorageId="uraniumS1" />
-                        <sidenav-item id="lavaPane" icon="lava.png" :unlocked="data['lava'].unlocked" :prod="data['lava'].prod" :count="data['lava'].count" :storage="getStorageCap('lava')" :cap="data['lava'].storage" buildingStorageId="lavaS1" />
-                    </sidenav-group>
+                        <sidenav-group id="earthResourcesHeading" :unlocked="data['metal'].unlocked">
+                            <sidenav-item id="oilPane" icon="oil.png" :unlocked="data['oil'].unlocked" :prod="data['oil'].prod" count="oil" :storage="getStorageCap('oil')" :cap="data['oil'].storage" buildingStorageId="oilS1" />
+                            <sidenav-item id="metalPane" icon="metal.png" :unlocked="data['metal'].unlocked" :prod="data['metal'].prod" count="metal" :storage="getStorageCap('metal')" :cap="data['metal'].storage" buildingStorageId="metalS1" />
+                            <sidenav-item id="gemPane" icon="gem.png" :unlocked="data['gem'].unlocked" :prod="data['gem'].prod" count="gem" :storage="getStorageCap('gem')" :cap="data['gem'].storage" buildingStorageId="gemS1" />
+                            <sidenav-item id="woodPane" icon="wood.png" :unlocked="data['wood'].unlocked" :prod="data['wood'].prod" count="wood" :storage="getStorageCap('wood')" :cap="data['wood'].storage" buildingStorageId="woodS1" />
+                            <sidenav-item id="siliconPane" icon="silicon.png" :unlocked="data['silicon'].unlocked" :prod="data['silicon'].prod" count="silicon" :storage="getStorageCap('silicon')" :cap="data['silicon'].storage" buildingStorageId="siliconS1" />
+                            <sidenav-item id="uraniumPane" icon="uranium.png" :unlocked="data['uranium'].unlocked" :prod="data['uranium'].prod" count="uranium" :storage="getStorageCap('uranium')" :cap="data['uranium'].storage" buildingStorageId="uraniumS1" />
+                            <sidenav-item id="lavaPane" icon="lava.png" :unlocked="data['lava'].unlocked" :prod="data['lava'].prod" count="lava" :storage="getStorageCap('lava')" :cap="data['lava'].storage" buildingStorageId="lavaS1" />
+                        </sidenav-group>
 
-                    <sidenav-group id="innerResourcesHeading" :unlocked="data['lunarite'].unlocked">
-                        <sidenav-item id="lunaritePane" icon="lunarite.png" :unlocked="data['lunarite'].unlocked" :prod="data['lunarite'].prod" :count="data['lunarite'].count" :storage="getStorageCap('lunarite')" :cap="data['lunarite'].storage" buildingStorageId="lunariteS1" />
-                        <sidenav-item id="methanePane" icon="methane.png" :unlocked="data['methane'].unlocked" :prod="data['methane'].prod" :count="data['methane'].count" :storage="getStorageCap('methane')" :cap="data['methane'].storage" buildingStorageId="methaneS1" />
-                        <sidenav-item id="titaniumPane" icon="titanium.png" :unlocked="data['titanium'].unlocked" :prod="data['titanium'].prod" :count="data['titanium'].count" :storage="getStorageCap('titanium')" :cap="data['titanium'].storage" buildingStorageId="titaniumS1" />
-                        <sidenav-item id="goldPane" icon="gold.png" :unlocked="data['gold'].unlocked" :prod="data['gold'].prod" :count="data['gold'].count" :storage="getStorageCap('gold')" :cap="data['gold'].storage" buildingStorageId="goldS1" />
-                        <sidenav-item id="silverPane" icon="silver.png" :unlocked="data['silver'].unlocked" :prod="data['silver'].prod" :count="data['silver'].count" :storage="getStorageCap('silver')" :cap="data['silver'].storage" buildingStorageId="silverS1" />
-                    </sidenav-group>
+                        <sidenav-group id="innerResourcesHeading" :unlocked="data['lunarite'].unlocked">
+                            <sidenav-item id="lunaritePane" icon="lunarite.png" :unlocked="data['lunarite'].unlocked" :prod="data['lunarite'].prod" count="lunarite" :storage="getStorageCap('lunarite')" :cap="data['lunarite'].storage" buildingStorageId="lunariteS1" />
+                            <sidenav-item id="methanePane" icon="methane.png" :unlocked="data['methane'].unlocked" :prod="data['methane'].prod" count="methane" :storage="getStorageCap('methane')" :cap="data['methane'].storage" buildingStorageId="methaneS1" />
+                            <sidenav-item id="titaniumPane" icon="titanium.png" :unlocked="data['titanium'].unlocked" :prod="data['titanium'].prod" count="titanium" :storage="getStorageCap('titanium')" :cap="data['titanium'].storage" buildingStorageId="titaniumS1" />
+                            <sidenav-item id="goldPane" icon="gold.png" :unlocked="data['gold'].unlocked" :prod="data['gold'].prod" count="gold" :storage="getStorageCap('gold')" :cap="data['gold'].storage" buildingStorageId="goldS1" />
+                            <sidenav-item id="silverPane" icon="silver.png" :unlocked="data['silver'].unlocked" :prod="data['silver'].prod" count="silver" :storage="getStorageCap('silver')" :cap="data['silver'].storage" buildingStorageId="silverS1" />
+                        </sidenav-group>
 
-                    <sidenav-group id="outerResourcesHeading" :unlocked="data['hydrogen'].unlocked || data['helium'].unlocked || data['ice'].unlocked">
-                        <sidenav-item id="hydrogenPane" icon="hydrogen.png" :unlocked="data['hydrogen'].unlocked" :prod="data['hydrogen'].prod" :count="data['hydrogen'].count" :storage="getStorageCap('hydrogen')" :cap="data['hydrogen'].storage" buildingStorageId="hydrogenS1" />
-                        <sidenav-item id="heliumPane" icon="helium.png" :unlocked="data['helium'].unlocked" :prod="data['helium'].prod" :count="data['helium'].count" :storage="getStorageCap('helium')" :cap="data['helium'].storage" buildingStorageId="heliumS1" />
-                        <sidenav-item id="icePane" icon="ice.png" :unlocked="data['ice'].unlocked" :prod="data['ice'].prod" :count="data['ice'].count" :storage="getStorageCap('ice')" :cap="data['ice'].storage" buildingStorageId="iceS1" />
-                    </sidenav-group>
+                        <sidenav-group id="outerResourcesHeading" :unlocked="data['hydrogen'].unlocked || data['helium'].unlocked || data['ice'].unlocked">
+                            <sidenav-item id="hydrogenPane" icon="hydrogen.png" :unlocked="data['hydrogen'].unlocked" :prod="data['hydrogen'].prod" count="hydrogen" :storage="getStorageCap('hydrogen')" :cap="data['hydrogen'].storage" buildingStorageId="hydrogenS1" />
+                            <sidenav-item id="heliumPane" icon="helium.png" :unlocked="data['helium'].unlocked" :prod="data['helium'].prod" count="helium" :storage="getStorageCap('helium')" :cap="data['helium'].storage" buildingStorageId="heliumS1" />
+                            <sidenav-item id="icePane" icon="ice.png" :unlocked="data['ice'].unlocked" :prod="data['ice'].prod" count="ice" :storage="getStorageCap('ice')" :cap="data['ice'].storage" buildingStorageId="iceS1" />
+                        </sidenav-group>
 
-                    <sidenav-group id="researchesHeading" :unlocked="data['science'].unlocked">
-                        <sidenav-item id="sciencePane" icon="science.png" :unlocked="data['science'].unlocked" :prod="data['science'].prod" :count="data['science'].count" />
-                        <sidenav-item id="technologiesPane" icon="technologies.png" :unlocked="data['science'].unlocked" />
-                    </sidenav-group>
+                        <sidenav-group id="researchesHeading" :unlocked="data['science'].unlocked">
+                            <sidenav-item id="sciencePane" icon="science.png" :unlocked="data['science'].unlocked" :prod="data['science'].prod" count="science" />
+                            <sidenav-item id="technologiesPane" icon="technologies.png" :unlocked="data['science'].unlocked" />
+                        </sidenav-group>
 
-                    <sidenav-group id="solSytemHeading" :unlocked="data['fuel'].unlocked">
-                        <sidenav-item id="fuelPane" icon="fuel.png" :unlocked="data['fuel'].unlocked" :prod="data['fuel'].prod" :count="data['fuel'].count" />
-                        <sidenav-item id="rocketPane" icon="rocket.png" :unlocked="data['rocket1'].unlocked" :done="data['rocket2'].count > 0" doneText="launched" />
-                        <sidenav-item id="innerSolarSystemPane" icon="innerSolarSystem.png" :unlocked="data['moon'].unlocked" :done="data['wonderStation'].count > 0" doneText="explored" />
-                        <sidenav-item id="outerSolarSystemPane" icon="outerSolarSystem.png" :unlocked="data['jupiter'].unlocked" :done="data['solCenter1'].count > 0" doneText="explored" />
-                    </sidenav-group>
+                        <sidenav-group id="solSytemHeading" :unlocked="data['fuel'].unlocked">
+                            <sidenav-item id="fuelPane" icon="fuel.png" :unlocked="data['fuel'].unlocked" :prod="data['fuel'].prod" count="fuel" />
+                            <sidenav-item id="rocketPane" icon="rocket.png" :unlocked="data['rocket1'].unlocked" :done="data['rocket2'].count > 0" doneText="launched" />
+                            <sidenav-item id="innerSolarSystemPane" icon="innerSolarSystem.png" :unlocked="data['moon'].unlocked" :done="data['wonderStation'].count > 0" doneText="explored" />
+                            <sidenav-item id="outerSolarSystemPane" icon="outerSolarSystem.png" :unlocked="data['jupiter'].unlocked" :done="data['solCenter1'].count > 0" doneText="explored" />
+                        </sidenav-group>
 
-                    <sidenav-group id="wondersHeading" :unlocked="data['wonderPrecious0'].unlocked">
-                        <sidenav-item id="wonderStationPane" icon="wonderStation.png" :unlocked="data['wonderPrecious0'].unlocked" :done="data['wonderPrecious0'].count > 0 && data['wonderEnergetic0'].count > 0 && data['wonderTechnological0'].count > 0 && data['wonderMeteorite0'].count > 0" doneText="done" />
-                        <sidenav-item id="floor1Pane" icon="floor1.png" :unlocked="data['wonderPrecious1'].unlocked || data['wonderEnergetic1'].unlocked || data['wonderTechnological1'].unlocked || data['wonderMeteorite1'].unlocked" :done="data['wonderPrecious1'].count > 0 && data['wonderEnergetic1'].count > 0 && data['wonderTechnological1'].count > 0 && data['wonderMeteorite1'].count > 0" doneText="done" />
-                        <sidenav-item id="floor2Pane" icon="floor2.png" :unlocked="data['wonderComm'].unlocked" :done="data['wonderComm'].count > 0 && data['wonderSpaceship'].count > 0 && data['wonderAntimatter'].count > 0 && data['wonderPortal'].count > 0" doneText="done" />
-                        <sidenav-item id="floor3Pane" icon="floor3.png" :unlocked="data['wonderStargate'].unlocked" :done="data['wonderStargate'].count > 0" doneText="done" />
-                    </sidenav-group>
+                        <sidenav-group id="wondersHeading" :unlocked="data['wonderPrecious0'].unlocked">
+                            <sidenav-item id="wonderStationPane" icon="wonderStation.png" :unlocked="data['wonderPrecious0'].unlocked" :done="data['wonderPrecious0'].count > 0 && data['wonderEnergetic0'].count > 0 && data['wonderTechnological0'].count > 0 && data['wonderMeteorite0'].count > 0" doneText="done" />
+                            <sidenav-item id="floor1Pane" icon="floor1.png" :unlocked="data['wonderPrecious1'].unlocked || data['wonderEnergetic1'].unlocked || data['wonderTechnological1'].unlocked || data['wonderMeteorite1'].unlocked" :done="data['wonderPrecious1'].count > 0 && data['wonderEnergetic1'].count > 0 && data['wonderTechnological1'].count > 0 && data['wonderMeteorite1'].count > 0" doneText="done" />
+                            <sidenav-item id="floor2Pane" icon="floor2.png" :unlocked="data['wonderComm'].unlocked" :done="data['wonderComm'].count > 0 && data['wonderSpaceship'].count > 0 && data['wonderAntimatter'].count > 0 && data['wonderPortal'].count > 0" doneText="done" />
+                            <sidenav-item id="floor3Pane" icon="floor3.png" :unlocked="data['wonderStargate'].unlocked" :done="data['wonderStargate'].count > 0" doneText="done" />
+                        </sidenav-group>
 
-                    <sidenav-group id="solCenterHeading" :unlocked="data['techPlasma0'].unlocked">
-                        <sidenav-item id="solCenterPane" icon="solCenter.png" :unlocked="data['techPlasma0'].unlocked" :done="data['techPlasma0'].count > 0 && data['techEmc0'].count > 0 && data['techDyson0'].count > 0" doneText="done" />
-                        <sidenav-item id="emcPane" icon="emc.png" :unlocked="data['emc'].unlocked" />
-                        <sidenav-item id="dysonPane" icon="dyson.png" :unlocked="data['segment'].unlocked" />
-                        <sidenav-item id="nanoswarmPane" icon="nanoswarm.png" :unlocked="data['nanoswarm'].unlocked" />
-                    </sidenav-group>
+                        <sidenav-group id="solCenterHeading" :unlocked="data['techPlasma0'].unlocked">
+                            <sidenav-item id="solCenterPane" icon="solCenter.png" :unlocked="data['techPlasma0'].unlocked" :done="data['techPlasma0'].count > 0 && data['techEmc0'].count > 0 && data['techDyson0'].count > 0" doneText="done" />
+                            <sidenav-item id="emcPane" icon="emc.png" :unlocked="data['emc'].unlocked" />
+                            <sidenav-item id="dysonPane" icon="dyson.png" :unlocked="data['segment'].unlocked" />
+                            <sidenav-item id="nanoswarmPane" icon="nanoswarm.png" :unlocked="data['nanoswarm'].unlocked" />
+                        </sidenav-group>
 
-                    <sidenav-group id="interstellarHeading" :unlocked="data['radarT1'].unlocked || data['antimatter'].unlocked || data['spaceship'].unlocked || data['shipT1'].unlocked">
-                        <sidenav-item id="antimatterPane" icon="antimatter.png" :unlocked="data['antimatter'].unlocked" :prod="data['antimatter'].prod" :count="data['antimatter'].count" :storage="getStorageCap('antimatter')" :cap="data['antimatter'].storage" />
-                        <sidenav-item id="communicationPane" icon="communication.png" :unlocked="data['radarT1'].unlocked" />
-                        <sidenav-item id="spaceshipPane" icon="spaceship.png" :unlocked="data['spaceship'].unlocked" :done="data['spaceship'].count > 0" doneText="built" />
-                        <sidenav-item id="militaryPane" icon="military.png" :unlocked="data['shipT1'].unlocked" />
-                        <sidenav-item id="terraformingPane" icon="terraforming.png" :unlocked="data['probe'].unlocked" />
-                        <sidenav-item id="interstellarCarnelianPane" icon="carnelian.png" :unlocked="data['spaceship'].count > 0" :opinion="data['carnelian'].opinion" />
-                        <sidenav-item id="interstellarPrasnianPane" icon="prasnian.png" :unlocked="data['spaceship'].count > 0" :opinion="data['prasnian'].opinion" />
-                        <sidenav-item id="interstellarHyacinitePane" icon="hyacinite.png" :unlocked="data['spaceship'].count > 0" :opinion="data['hyacinite'].opinion" />
-                        <sidenav-item id="interstellarKitrinosPane" icon="kitrinos.png" :unlocked="data['spaceship'].count > 0" :opinion="data['kitrinos'].opinion" />
-                        <sidenav-item id="interstellarMovitonPane" icon="moviton.png" :unlocked="data['spaceship'].count > 0" :opinion="data['moviton'].opinion" />
-                        <sidenav-item id="interstellarOverlordPane" icon="overlord.png" :unlocked="data['overlordProgram'].count > 0" />
-                    </sidenav-group>
+                        <sidenav-group id="interstellarHeading" :unlocked="data['radarT1'].unlocked || data['antimatter'].unlocked || data['spaceship'].unlocked || data['shipT1'].unlocked">
+                            <sidenav-item id="antimatterPane" icon="antimatter.png" :unlocked="data['antimatter'].unlocked" :prod="data['antimatter'].prod" count="antimatter" :storage="getStorageCap('antimatter')" :cap="data['antimatter'].storage" />
+                            <sidenav-item id="communicationPane" icon="communication.png" :unlocked="data['radarT1'].unlocked" />
+                            <sidenav-item id="spaceshipPane" icon="spaceship.png" :unlocked="data['spaceship'].unlocked" :done="data['spaceship'].count > 0" doneText="built" />
+                            <sidenav-item id="militaryPane" icon="military.png" :unlocked="data['shipT1'].unlocked" />
+                            <sidenav-item id="terraformingPane" icon="terraforming.png" :unlocked="data['probe'].unlocked" />
+                            <sidenav-item id="interstellarCarnelianPane" icon="carnelian.png" :unlocked="data['spaceship'].count > 0" :opinion="data['carnelian'].opinion" />
+                            <sidenav-item id="interstellarPrasnianPane" icon="prasnian.png" :unlocked="data['spaceship'].count > 0" :opinion="data['prasnian'].opinion" />
+                            <sidenav-item id="interstellarHyacinitePane" icon="hyacinite.png" :unlocked="data['spaceship'].count > 0" :opinion="data['hyacinite'].opinion" />
+                            <sidenav-item id="interstellarKitrinosPane" icon="kitrinos.png" :unlocked="data['spaceship'].count > 0" :opinion="data['kitrinos'].opinion" />
+                            <sidenav-item id="interstellarMovitonPane" icon="moviton.png" :unlocked="data['spaceship'].count > 0" :opinion="data['moviton'].opinion" />
+                            <sidenav-item id="interstellarOverlordPane" icon="overlord.png" :unlocked="data['overlordProgram'].count > 0" />
+                        </sidenav-group>
 
-                    <sidenav-group id="stargazeHeading" :unlocked="data['darkmatter'].unlocked">
-                        <sidenav-item id="darkmatterPane" icon="darkmatter.png" :unlocked="data['darkmatter'].unlocked" :count="data['darkmatter'].count" :potential="getPotentialDM" />
-                        <sidenav-item id="stargazeCarnelianPane" icon="carnelian.png" :unlocked="data['darkmatter'].unlocked" :opinion="data['carnelian'].opinion" />
-                        <sidenav-item id="stargazePrasnianPane" icon="prasnian.png" :unlocked="data['darkmatter'].unlocked" :opinion="data['prasnian'].opinion" />
-                        <sidenav-item id="stargazeHyacinitePane" icon="hyacinite.png" :unlocked="data['darkmatter'].unlocked" :opinion="data['hyacinite'].opinion" />
-                        <sidenav-item id="stargazeKitrinosPane" icon="kitrinos.png" :unlocked="data['darkmatter'].unlocked" :opinion="data['kitrinos'].opinion" />
-                        <sidenav-item id="stargazeMovitonPane" icon="moviton.png" :unlocked="data['darkmatter'].unlocked" :opinion="data['moviton'].opinion" />
-                        <sidenav-item id="stargazeOverlordPane" icon="overlord.png" :unlocked="data['darkmatter'].unlocked" :opinion="data['overlord'].opinion" />
-                    </sidenav-group>
+                        <sidenav-group id="stargazeHeading" :unlocked="data['darkmatter'].unlocked">
+                            <sidenav-item id="darkmatterPane" icon="darkmatter.png" :unlocked="data['darkmatter'].unlocked" count="darkmatter" :potential="getPotentialDM" />
+                            <sidenav-item id="stargazeCarnelianPane" icon="carnelian.png" :unlocked="data['darkmatter'].unlocked" :opinion="data['carnelian'].opinion" />
+                            <sidenav-item id="stargazePrasnianPane" icon="prasnian.png" :unlocked="data['darkmatter'].unlocked" :opinion="data['prasnian'].opinion" />
+                            <sidenav-item id="stargazeHyacinitePane" icon="hyacinite.png" :unlocked="data['darkmatter'].unlocked" :opinion="data['hyacinite'].opinion" />
+                            <sidenav-item id="stargazeKitrinosPane" icon="kitrinos.png" :unlocked="data['darkmatter'].unlocked" :opinion="data['kitrinos'].opinion" />
+                            <sidenav-item id="stargazeMovitonPane" icon="moviton.png" :unlocked="data['darkmatter'].unlocked" :opinion="data['moviton'].opinion" />
+                            <sidenav-item id="stargazeOverlordPane" icon="overlord.png" :unlocked="data['darkmatter'].unlocked" :opinion="data['overlord'].opinion" />
+                        </sidenav-group>
 
-                    <sidenav-group id="enlightenmentHeading" :unlocked="data['ultrite'].unlocked">
-                        <sidenav-item id="ultritePane" icon="ultrite.png" :unlocked="data['ultrite'].unlocked" :count="data['ultrite'].count" :potential="getPotentialUL" />
-                        <sidenav-item id="titansPane" icon="titans.png" :unlocked="data['ultrite'].unlocked" />
-                        <sidenav-item id="upgradesPane" icon="upgrades.png" :unlocked="data['ultrite'].unlocked" />
-                    </sidenav-group>
+                        <sidenav-group id="enlightenmentHeading" :unlocked="data['ultrite'].unlocked">
+                            <sidenav-item id="ultritePane" icon="ultrite.png" :unlocked="data['ultrite'].unlocked" count="ultrite" :potential="getPotentialUL" />
+                            <sidenav-item id="titansPane" icon="titans.png" :unlocked="data['ultrite'].unlocked" />
+                            <sidenav-item id="upgradesPane" icon="upgrades.png" :unlocked="data['ultrite'].unlocked" />
+                        </sidenav-group>
+
+                    </div>
                 </div>
             </inner-content>
         </div>
@@ -152,30 +160,29 @@
                     </a>
                 </div>
 
-                <div class="col-auto cursor-hover">
+                <div class="col-auto" data-bs-toggle="tooltip" data-bs-placement="left" :title="$t('donatingPane')">
                     <button @click="setActivePane('donatingPane')">
-                        <img :src="require('./assets/interface/donating.png')" width="16" height="16" alt="Donating icon" />
-                        <span class="ms-1 text-light">{{ $t('donatingPane') }}</span>
+                        <img :src="require('./assets/interface/donating.png')" width="16" height="16" alt="Donating" />
                     </button>
                 </div>
 
-                <div class="col-auto cursor-hover position-relative" data-bs-toggle="tooltip" data-bs-placement="left" :title="$t('achievementPane')">
+                <div class="col-auto position-relative" data-bs-toggle="tooltip" data-bs-placement="left" :title="$t('achievementPane')">
                     <button @click="setActivePane('achievementPane')">
                         <div v-if="isNotif('achievementPane')" class="position-absolute top-0 end-0" style="line-height:1">
                             <i class="fas fa-fw fa-certificate text-success small"></i>
                         </div>
-                        <img :src="require('./assets/interface/trophy.png')" width="16" height="16" alt="Achievements icon" />
+                        <img :src="require('./assets/interface/trophy.png')" width="16" height="16" alt="Achievements" />
                     </button>
                 </div>
 
-                <div class="col-auto cursor-hover position-relative" data-bs-toggle="tooltip" data-bs-placement="left" :title="$t('rankPane')">
+                <div class="col-auto" data-bs-toggle="tooltip" data-bs-placement="left" :title="$t('rankPane')">
                     <button @click="setActivePane('rankPane')">
-                        <img :src="require('./assets/interface/rank.png')" width="16" height="16" alt="Leaderboard icon" />
+                        <img :src="require('./assets/interface/rank.png')" width="16" height="16" alt="Leaderboard" />
                     </button>
                 </div>
 
-                <div class="col-auto">
-                    <button id="dropdownLanguageButton" class="text-normal cursor-hover" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Language dropdown">
+                <div class="col-auto" data-bs-toggle="tooltip" data-bs-placement="left" :title="$t('language')">
+                    <button id="dropdownLanguageButton" class="text-normal" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Language">
                       <span v-if="locale == 'chs'" class="flag-icon flag-icon-cn rounded"></span>
                         <span v-if="locale == 'en'" class="flag-icon flag-icon-gb rounded"></span>
                         <span v-if="locale == 'fr'" class="flag-icon flag-icon-fr rounded"></span>
@@ -188,13 +195,13 @@
                         </button>
                       </li>
                         <li>
-                            <button class="dropdown-item cursor-hover" @click="changeLocale('en')">
+                            <button class="dropdown-item" @click="changeLocale('en')">
                                 <span class="flag-icon flag-icon-gb rounded me-2"></span>
                                 English
                             </button>
                         </li>
                         <li>
-                            <button class="dropdown-item cursor-hover" @click="changeLocale('fr')">
+                            <button class="dropdown-item" @click="changeLocale('fr')">
                                 <span class="flag-icon flag-icon-fr rounded me-2"></span>
                                 Français
                             </button>
@@ -202,36 +209,28 @@
                     </ul>
                 </div>
 
-                <div class="col-auto">
-                    <button id="dropdownMenuButton" class="text-light cursor-hover" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Menu dropdown">
-                        <i class="fas fa-fw fa-ellipsis-v"></i>
+                <div class="col-auto" data-bs-toggle="tooltip" data-bs-placement="left" :title="$t('settingsPane')">
+                    <button @click="setActivePane('settingsPane')">
+                        <img :src="require('./assets/interface/cog.png')" width="16" height="16" alt="Settings" />
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                        <li>
-                            <button class="dropdown-item cursor-hover" @click="setActivePane('settingsPane')">
-                                <img :src="require('./assets/interface/cog.png')" width="16" height="16" class="me-2" alt="Settings icon" />
-                                {{ $t('settingsPane') }}
-                            </button>
-                        </li>
-                        <li>
-                            <button class="dropdown-item cursor-hover" @click="setActivePane('aboutPane')">
-                                <img :src="require('./assets/interface/about.png')" width="16" height="16" class="me-2" alt="About icon" />
-                                {{ $t('aboutPane') }}
-                            </button>
-                        </li>
-                    </ul>
+                </div>
+
+                <div class="col-auto" data-bs-toggle="tooltip" data-bs-placement="left" :title="$t('aboutPane')">
+                    <button @click="setActivePane('aboutPane')">
+                        <img :src="require('./assets/interface/about.png')" width="16" height="16" alt="About" />
+                    </button>
                 </div>
 
             </top-header>
             <inner-content data-simplebar role="main">
 
-                <div v-if="ghLatestRelease && ghLatestRelease != currentRelease" class="alert alert-warning text-end" role="alert">
+                <div v-if="ghLatestRelease && ghLatestRelease != currentRelease" class="alert alert-warning text-center border-0 rounded-0 mb-0" role="alert">
                     <small>{{ $t('ghLatestVersion') }}</small>
-                    <small class="mx-2">v{{ ghLatestRelease }}</small>
+                    <small class="mx-2">{{ ghLatestRelease }}</small>
                     <button class="btn" @click="onRefresh()">{{ $t('update') }}</button>
                 </div>
 
-                <div class="tab-content" style="padding-bottom: 65px;">
+                <div class="tab-content container pt-3 px-2" style="padding-bottom: 65px;">
 
                     <!-- ENERGY PANE -->
                     <pane id="energyPane" icon="energy.png" :descs="['energyPane_desc']" pinnable="energy">
@@ -463,7 +462,7 @@
                     </pane>
 
                     <!-- TECHNOLOGIES PANE -->
-                    <pane id="technologiesPane" icon="technologies.png" :descs="['technologiesPane_desc']">
+                    <pane id="technologiesPane" icon="technologies.png" :descs="['technologiesPane_desc']" pinnable="technologies">
                         <buildable v-if="!(showDoneTechs == false && data['techStorage'].count > 0)" id="techStorage" btnText="unlock" />
                         <buildable v-if="!(showDoneTechs == false && data['techEnergy1'].count > 0)" id="techEnergy1" btnText="unlock" />
                         <buildable v-if="!(showDoneTechs == false && data['techOil'].count > 0)" id="techOil" btnText="unlock" unlocker="techStorage" />
@@ -572,7 +571,7 @@
                     </pane>
 
                     <!-- EMC PANE -->
-                    <pane id="emcPane" icon="emc.png" :descs="['emcPane_desc']">
+                    <pane id="emcPane" icon="emc.png" :descs="['emcPane_desc']" pinnable="emc">
                         <card checked="true">
                             <div class="col-12">
                                 <div class="row gx-3">
@@ -631,7 +630,7 @@
                     </pane>
 
                     <!-- DYSON PANE -->
-                    <pane id="dysonPane" icon="dyson.png" :descs="['dysonPane_desc']">
+                    <pane id="dysonPane" icon="dyson.png" :descs="['dysonPane_desc']" pinnable="dyson">
                         <buildable id="segment" btnText="build" collapse="true" />
                         <buildable id="dysonT1" btnText="build" collapse="true" />
                         <buildable id="dysonT2" btnText="build" collapse="true" />
@@ -929,7 +928,7 @@
                     </pane>
                     <!-- DONATING PANE -->
                     <pane id="donatingPane" icon="donating.png" :descs="['donatingPane_desc1', 'donatingPane_desc2']">
-                        <card id="donatingPane_desc3" checked="true">
+                        <card id="donatingPane_desc3" class="col-12">
                             <div class="col-12 small">
                                 <span>{{ $t('donatingPane_desc5') }}</span>
                             </div>
@@ -938,7 +937,8 @@
                                     <input type="hidden" name="cmd" value="_s-xclick">
                                     <input type="hidden" name="hosted_button_id" value="7XYD7SJFKQ8M4">
                                     <div class="col-12 text-end">
-                                        <small>{{ $t('donatingPane_desc4') }}</small>
+                                        <div class="small">{{ $t('donatingPane_desc4') }}</div>
+                                        <div class="small">{{ $t('donatingPane_desc6') }}</div>
                                     </div>
                                     <div class="col-12 text-end">
                                         <button type="submit" class="btn">
@@ -1929,399 +1929,56 @@
                             </div>
                         </div>
                         <div class="col-12 border-top">
-                            <div class="text-light">v1.29.1 - 2021-07-21</div>
+                            <div class="text-light">v1.31.5 - 2021-07-29</div>
                             <ul class="small">
-                                <li>FIX: now option in EMC pane to display EMC shortcut on upgrade storage card is taken into account (made by eliannelavoie)</li>
-                                <li>FIX: now EMC shortcut on upgrade storage card is hidden if EMC is unlocked (made by eliannelavoie)</li>
+                                <li>CHANGE: some UI changes</li>
+                                <li>FIX: now offline gains are well managed, including auto EMC and auto storage</li>
+                                <li>FIX: now titans are well applied to probe, terraformer and statue costs</li>
                             </ul>
                         </div>
                         <div class="col-12 border-top">
-                            <div class="text-light">v1.29.0 - 2021-07-21</div>
+                            <div class="text-light">v1.31.4 - 2021-07-29</div>
                             <ul class="small">
-                                <li>FIX: now upgrade storage button is displayed on pinned resource (made by eliannelavoie)</li>
-                                <li>NEW: option in EMC pane to display EMC shortcut on upgrade storage card (made by eliannelavoie)</li>
-                                <li>NEW: EMC shortcut on upgrade storage card is displayed to convert resource (made by eliannelavoie)</li>
+                                <li>CHANGE: some UI changes</li>
                             </ul>
                         </div>
                         <div class="col-12 border-top">
-                            <div class="text-light">v1.28.6 - 2021-07-19</div>
+                            <div class="text-light">v1.31.3 - 2021-07-29</div>
                             <ul class="small">
-                                <li>FIX: now overlord statues progress bar is displayed well</li>
-                                <li>FIX: now padding to display scroll bar on left side pane is larger</li>
+                                <li>CHANGE: some UI changes</li>
+                                <li>FIX: now titans are applied once only on probe, terraformer and statue costs</li>
                             </ul>
                         </div>
                         <div class="col-12 border-top">
-                            <div class="text-light">v1.28.5 - 2021-07-18</div>
+                            <div class="text-light">v1.31.2 - 2021-07-28</div>
                             <ul class="small">
-                                <li>FIX: (again) now bribery remains after rebirth and enlightenment</li>
-                                <li>FIX: now hydrogen, helium, and ice can be unlocked in any order</li>
+                                <li>FIX: now overlord statue will give you 5 ultrite</li>
+                                <li>FIX: now calculators don't display 00:00:60 anymore</li>
+                                <li>FIX: now terraformer and probe costs are re-computed</li>
+                                <li>FIX: now titans are applied on terraforming costs</li>
                             </ul>
                         </div>
                         <div class="col-12 border-top">
-                            <div class="text-light">v1.28.4 - 2021-07-16</div>
+                            <div class="text-light">v1.31.1 - 2021-07-27</div>
                             <ul class="small">
-                                <li>FIX: now bribery remains after rebirth and enlightenment</li>
-                                <li>FIX: now empty storage timer displays '> 48h'</li>
-                                <li>FIX: now QRS is taken into account in achievements</li>
+                                <li>FIX: now timers display value greater than 24 hours</li>
                             </ul>
                         </div>
                         <div class="col-12 border-top">
-                            <div class="text-light">v1.28.3 - 2021-07-15</div>
+                            <div class="text-light">v1.31.0 - 2021-07-24</div>
                             <ul class="small">
-                                <li>FIX: now invade chance computing is fixed</li>
-                                <li>FIX: now dyson segment and items are collapsable</li>
+                                <li>NEW: now Technologies panes is pinnable</li>
+                                <li>FIX: now 'Max' computing perfomance is better</li>
                             </ul>
                         </div>
                         <div class="col-12 border-top">
-                            <div class="text-light">v1.28.2 - 2021-07-13</div>
+                            <div class="text-light">v1.30.0 - 2021-07-24</div>
                             <ul class="small">
-                                <li>FIX: now EMC interval is saved and loaded</li>
-                                <li>FIX: now antimatter is purple when affected by rift</li>
-                                <li>FIX: now antimatter indicates the time taken for full storage</li>
-                                <li>FIX: now rift is taken into account for auto-storage</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.28.1 - 2021-07-12</div>
-                            <ul class="small">
-                                <li>FIX: spaceship parts cannot be built if spaceship is already built</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.28.0 - 2021-07-12</div>
-                            <ul class="small">
-                                <li>FIX: spaceship parts cannot be built if spaceship is already built</li>
-                                <li>FIX: nanoswarm is not applied on consumption</li>
-                                <li>FIX: added close button on calculators</li>
-                                <li>FIX: option to show roadmap and done techs are saved</li>
-                                <li>FIX: T5 machines unlocked if meteorite wonder is already activated</li>
-                                <li>FIX: auto-storage occurs when storage is full (rift is not taken into account)</li>
-                                <li>NEW: grey out the enlighten button if you don't have 1à conquered stars at least</li>
-                                <li>NEW: grey out the titan swapping button if you don't have any titan</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.27.1 - 2021-07-09</div>
-                            <ul class="small">
-                                <li>FIX: QoL DM upgrades are locked after enlighenment</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.27.0 - 2021-07-09</div>
-                            <ul class="small">
-                                <li>FIX: now auto emc is working fine in background</li>
-                                <li>FIX: chemical plant boost is applied on production only</li>
-                                <li>FIX: some typos (thx to silent1b)</li>
-                                <li>NEW: option to show/hide the Overlord roadmap</li>
-                                <li>NEW: QoL DM upgrades are not reset after enlighenment</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.26.1 - 2021-07-08</div>
-                            <ul class="small">
-                                <li>FIX: various accessibility issues</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.26.0 - 2021-07-08</div>
-                            <ul class="small">
-                                <li>FIX: compute costs after titan swaping</li>
-                                <li>FIX: building calculator costs were wrong</li>
-                                <li>NEW: overlord roadmap to conquer the universe</li>
-                                <li>NEW: option to display/hide researched techs</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.25.0 - 2021-07-07</div>
-                            <ul class="small">
-                                <li>FIX: hard reset does nothing</li>
-                                <li>FIX: ship costs computed after failed invasion</li>
-                                <li>NEW: added titan swaping ability</li>
-                                <li>NEW: grey out the rebirth button when you can't rebirth yet</li>
-                                <li>NEW: added plasma storage tier 4 + moviton dark matter upgrade to unlock it</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.24.0 - 2021-07-06</div>
-                            <ul class="small">
-                                <li>FIX: dimension rift is taken into account in wonder costs</li>
-                                <li>FIX: dimension rift is taken into account in calculators</li>
-                                <li>CHANGE: updated ways to gain ultrite</li>
-                                <li>NEW: added calculators on spaceship parts</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.23.0 - 2021-07-05</div>
-                            <ul class="small">
-                                <li>FIX: nanoswarm pane is displayed</li>
-                                <li>NEW: close button in change log modal</li>
-                                <li>NEW: overlord appreciation program as ultrite upgrade</li>
-                                <li>NEW: terraforming ships</li>
-                                <li>NEW: overloard statues</li>
-                                <li>NEW: the end of the game</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.22.0 - 2021-07-02</div>
-                            <ul class="small">
-                                <li>FIX: auto-storage upgrade works on all resources (again)</li>
-                                <li>FIX: display storage upgrade button only when tech storage is done</li>
-                                <li>FIX: removed tooltip on storage upgrade button on left side</li>
-                                <li>CHANGE: updated cost of nanoswarm and auto upgrade storage ultrite prices</li>
-                                <li>NEW: display resource count in specific color when your store resource in another dimension</li>
-                                <li>NEW: advanced storage discount ultrite upgrade</li>
-                                <li>NEW: 3 ship enhancement ultrite upgrades</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.21.0 - 2021-07-02</div>
-                            <ul class="small">
-                                <li>FIX: now quasar redirection system is working well</li>
-                                <li>FIX: dimensional rift is taken into account in storage cap displaying</li>
-                                <li>FIX: dimensional rift is taken into account in EMC</li>
-                                <li>FIX: multy-buy buttons are displayed on 1 row</li>
-                                <li>FIX: auto-storage upgrade works on all resources</li>
-                                <li>NEW: small button to upgrade storage in left side menu</li>
-                                <li>NEW: dyson items achievements</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.20.3 - 2021-07-01</div>
-                            <ul class="small">
-                                <li>FIX: fixed issue with data exporting</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.20.2 - 2021-07-01</div>
-                            <ul class="small">
-                                <li>FIX: invading and absorbtion are initially allowed but invade chance is displayed when star is spyied only</li>
-                                <li>FIX: save in local storage a crypted copy of data</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.20.1 - 2021-07-01</div>
-                            <ul class="small">
-                                <li>FIX: now auto storage upgrade ultrite upgrade is displayed after enlightenment</li>
-                                <li>FIX: typo in enlightenment modal</li>
-                                <li>FIX: dimensional rift is taken into account in timer computing</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.20.0 - 2021-06-30</div>
-                            <ul class="small">
-                                <li>FIX: now segment and machine calculators take titans into account</li>
-                                <li>NEW: change leaderboard ranking to take into account ultrite and darkmatter</li>
-                                <li>NEW: now you could pin resoure pane to have them displaued in top of left menu ; must be activated in options menu</li>
-                                <li>NEW: now you could build dyson items in one click</li>
-                                <li>NEW: auto storage upgrade ultrite upgrade</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.19.0 - 2021-06-29</div>
-                            <ul class="small">
-                                <li>FIX: EMC convert to full storage</li>
-                                <li>FIX: star stats are fixed number</li>
-                                <li>NEW: click on update version button trigger a manual save</li>
-                                <li>NEW: now you have to spy before invading</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.18.1 - 2021-06-28</div>
-                            <ul class="small">
-                                <li>FIX: stats loading</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.18.0 - 2021-06-28</div>
-                            <ul class="small">
-                                <li>NEW: initial implementation of 'Enlightenment' = second layer of prestige</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.17.0 - 2021-06-26</div>
-                            <ul class="small">
-                                <li>NEW: donor card + star</li>
-                                <li>NEW: ultrite pane + titans pane + upgrades pane (not finalized)</li>
-                                <li>NEW: make notifications closeable</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.16.2 - 2021-06-25</div>
-                            <ul class="small">
-                                <li>FIX: negative resource production</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.16.1 - 2021-06-25</div>
-                            <ul class="small">
-                                <li>FIX: power and defense star values</li>
-                                <li>FIX: +NAN/s value in resource production</li>
-                                <li>FIX: EMC negative value</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.16.0 - 2021-06-24</div>
-                            <ul class="small">
-                                <li>FIX: calculator computed values</li>
-                                <li>FIX: computed ship costs after scouting and invasion</li>
-                                <li>NEW: nanoswarms DM upgrade will be removed for the moment (those who have it keep it until next rebirth)</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.15.0 - 2021-06-24</div>
-                            <ul class="small">
-                                <li>FIX: 'Battery Efficiency' still doesn't increase battery storage in v1.14.0</li>
-                                <li>FIX: reaching 250 resource machines, or reaching 50T produced resources gives negative XP</li>
-                                <li>FIX: nanoswarm resource not showing the resource it is on, after refresh</li>
-                                <li>FIX: 'Display autosave notifications' not persisting between refreshes</li>
-                                <li>NEW: calculator to compute costs and timers to reach achievements on each machine cards</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.14.0 - 2021-06-24</div>
-                            <ul class="small">
-                                <li>FIX: 'Battery Efficiency' does not actually increase battery stogage</li>
-                                <li>FIX: reset faction relationship to DM upgrade after rebirth</li>
-                                <li>NEW: display a warning message when there is not enough consumed resource storage to produce</li>
-                                <li>NEW: an option to hide or not locked items</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.13.0 - 2021-06-23</div>
-                            <ul class="small">
-                                <li>FIX: exit game loop when last update is later than now</li>
-                                <li>FIX: reflect boosts in machine cards production/consumptions values</li>
-                                <li>FIX: display green mark on 'Batteries' menu item instead of 'Energy' menu item</li>
-                                <li>NEW: un-collapse all on 'Rebirth'</li>
-                                <li>NEW: display real 'Max' amount of plasma/energy to be converted</li>
-                                <li>NEW: when card is minimized, display name + current count</li>
-                                <li>NEW: manual save button</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.12.0 - 2021-06-22</div>
-                            <ul class="small">
-                                <li>FIX: 'Auto-EMC' consumption issue fixed</li>
-                                <li>NEW: display total production/consumption and balance on each resource pane</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.11.2 - 2021-06-22</div>
-                            <ul class="small">
-                                <li>FIX: 'Auto-EMC' frequency issue fixed</li>
-                                <li>FIX: 'Multi-Buy' description fixed</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.11.0 - 2021-06-22</div>
-                            <ul class="small">
-                                <li>NEW: Dyson Segment calculator takes into account current resource count to compute timers</li>
-                                <li>NEW: add 'Multi-Buy' as Corporation Kitrinos upgrade</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.10.0 - 2021-06-21</div>
-                            <ul class="small">
-                                <li>NEW: add Dyson Segment calculator</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.9.2 - 2021-06-21</div>
-                            <ul class="small">
-                                <li>FIX: fixed 'Starting Storage'</li>
-                                <li>FIX: fixed 'Storage Discount'</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.9.1 - 2021-06-21</div>
-                            <ul class="small">
-                                <li>FIX: make all machine cards collaspable</li>
-                                <li>FIX: display 'Auto EMC' as unlocked</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.9.0 - 2021-06-21</div>
-                            <ul class="small">
-                                <li>NEW: add 'Auto EMC' as Prasnian Empire upgrade</li>
-                                <li>NEW: display change log modal when you click on current version number on left side top bar</li>
-                                <li>NEW: add 'Hard Reset' functionnality in 'Options' pane</li>
-                                <li>NEW: save left side menu group collapse state</li>
-                                <li>NEW: make machine card collaspable and save collaspe state</li>
-                                <li>NEW: new option to activate/dactivate achievement notification</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.8.0 - 2021-06-20</div>
-                            <ul class="small">
-                                <li>NEW: better displaying of statictics</li>
-                                <li>FIX: display "DONE" on "Floor #2" only when all wonders are activated</li>
-                                <li>FIX: "Mystery Wonder Construction" unlocks "Floor #2"</li>
-                                <li>FIX: left side resource production displaying is rounding as storage</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.7.0 - 2021-06-19</div>
-                            <ul class="small">
-                                <li>FIX: Make resource boosts multiplicative, rather than additive</li>
-                                <li>FIX : Unlock T5 machines only when Wonder Meteorite is activated</li>
-                                <li>NEW: better precision in number displaying (4 digits)</li>
-                                <li>NEW: current version number displaying on left side top bar</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.6.0 - 2021-06-18</div>
-                            <ul class="small">
-                                <li>FIX: fix Energy Efficiency boost (again)</li>
-                                <li>NEW : remove dependendy between Wonder Station Floor #2 and Dyson Sphere</li>
-                                <li>NEW : add statistics in Achievements pane</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.5.0 - 2021-06-18</div>
-                            <ul class="small">
-                                <li>NEW : add EMC amount selector</li>
-                                <li>NEW : change EMC pane displaying</li>
-                                <li>NEW : make Wonder Station Floor #2 available only if you have 1 Dyson Sphere at least (for those who already build wonders on floor #2, you don't loose anything, you will recover your wonders after the first Dyson Sphere)</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.4.0 - 2021-06-18</div>
-                            <ul class="small">
-                                <li>FIX: fix Energy Efficiency boost</li>
-                                <li>FIX: fix Science Efficiency boost</li>
-                                <li>NEW: change Ranking pane displaying</li>
-                                <li>NEW: change Achievements pane displaying</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.3.0 - 2021-06-17</div>
-                            <ul class="small">
-                                <li>NEW: add backend to save player current rank data and new pane to display player ranks (leaderboard first tentative)</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.2.0 - 2021-06-16</div>
-                            <ul class="small">
-                                <li>FIX: to unlock "Floor #1" whatever the wonder you decide to achieve first</li>
-                                <li>NEW : make site more compatible with screenreaders</li>
-                                <li>NEW : display current version number of the game</li>
-                                <li>NEW : every hour check latest version on Github and propose to update the game if current version is not up to date</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.1.0 - 2021-06-16</div>
-                            <ul class="small">
-                                <li>FIX : do not double the consumption for "Upgrade Resource Technology" & "Upgrade Engine Technology"</li>
-                                <li>NEW : display timer to tell when item storage will be empty</li>
-                                <li>NEW : display item description even when it is done</li>
-                                <li>NEW : display different button style when you hover/click on it</li>
-                                <li>NEW : make new achievement toast clickable to achivevement pane</li>
-                            </ul>
-                        </div>
-                        <div class="col-12 border-top">
-                            <div class="text-light">v1.0.0 - 2021-06-16</div>
-                            <ul class="small">
-                                <li>Initial release</li>
+                                <li>NEW: now Dyson and EMC panes are pinnable</li>
+                                <li>NEW: now a max value is dispayed on each buildable item</li>
+                                <li>CHANGE: now displaying of item current count is not rounded</li>
+                                <li>CHANGE: now donor stars give +50% bonus instead of +25%</li>
+                                <li>FIX: now timers won't display 'NaN' anymore</li>
                             </ul>
                         </div>
                     </div>
@@ -2419,7 +2076,7 @@ export default {
             enlightenSelected: null,
             overlordModal: null,
 
-            currentRelease: '1.29.1',
+            currentRelease: '1.31.5',
             ghLatestRelease: null,
 
             login: null,
@@ -2468,7 +2125,7 @@ export default {
         ...mapActions([
 
             'initialize', 'load',
-            'computeProdValues', 'produceResources', 'updateTimers', 'checkBoosts', 'updateAchievements', 'save',
+            'computeProdValues', 'produceResources', 'updateTimers', 'checkBoosts', 'refreshStorage', 'refreshContext', 'updateAchievements', 'save',
             'setActiveShip', 'spy', 'invade', 'absorb',
             'rebirth', 'performAutoEmc', 'enlighten',
             'performAutoStorageUpgrade', 'swapTitan',
@@ -2495,11 +2152,12 @@ export default {
             this.selectedEmcAmount = this.emcAmount
             this.selectedAutoEmcInterval = this.autoEmcInterval / 1000
 
-            // this.ghUpdate()
+            this.fastUpdate()
+            this.ghUpdate()
 
             this.fastInterval = setInterval(() => { this.fastUpdate() }, 100)
             this.slowInterval = setInterval(() => { this.slowUpdate() }, 1000)
-            // this.ghInterval = setInterval(() => { this.ghUpdate() }, 3600000)
+            this.ghInterval = setInterval(() => { this.ghUpdate() }, 3600000)
 
             this.loaded = true
 
@@ -2591,6 +2249,9 @@ export default {
             let autoEmcCount = Math.floor((this.timeSinceAutoEmc * 1000) / this.autoEmcInterval)
             for (let i = 0; i < autoEmcCount; i++) this.performAutoEmc()
             if (autoEmcCount > 0) this.setTimeSinceAutoEmc(0)
+
+            this.refreshStorage()
+            this.refreshContext()
         },
         slowUpdate() {
 

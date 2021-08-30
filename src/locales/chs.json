@@ -844,7 +844,7 @@
     "star74001": "AC +23°468",
     "star199602": "Xi Boötis",
     "star148101": "AC +17°534",
-    "star224201": "A",
+    "star224201": "Asimov",
     "star224202": "B",
     "star157301": "BD +15°473",
     "star72601": "天狼星 358",
@@ -1193,5 +1193,6 @@
 
     "max": "最大",    
     "calcModal": "机器成本计算器",    
-    "segmentModal": "戴森细分成本计算器"
+    "segmentModal": "戴森细分成本计算器",
+    "language": "语言"
 }

@@ -39,7 +39,7 @@
                     
                         <sidenav-item v-if="showRoadmap" id="helpPane" icon="help.png" unlocked="true" />
                         
-                        <sidenav-group id="pinnedHeading" :unlocked="displayPinnedItems == true">
+                        <sidenav-group id="pinnedHeading" :unlocked="displayPinnedItems == true" :pinnable="true">
                             <div v-for="pane in pinned" :key="pane.id">
                                 <sidenav-item v-if="pane.resId != 'dyson' && pane.resId != 'emc' && pane.resId != 'technologies'" :id="pane.id" :icon="pane.icon" unlocked="true" :prod="data[pane.resId].prod" :count="pane.resId" :storage="getStorageCap(pane.resId)" :cap="data[pane.resId].storage" :problem="data[pane.resId].problem" :buildingStorageId="pane.buildingStorageId" />
                                 <sidenav-item v-if="pane.resId == 'dyson'" :id="pane.id" :icon="pane.icon" unlocked="true" />
@@ -151,7 +151,7 @@
                         <div v-if="hasNotif" class="position-absolute top-0 end-0" style="line-height:1">
                             <i class="fas fa-fw fa-certificate text-success small"></i>
                         </div>
-                        <img :src="require('./assets/whiteLogo.png')" width="36" height="36" alt="Game logo" />
+                        <img src="https://ngspacecompany.exileng.com/whiteLogo.png" width="36" height="36" alt="Game logo" />
                     </button>
                 </div>
                 
@@ -164,6 +164,7 @@
                 <div class="col-auto" data-bs-toggle="tooltip" data-bs-placement="left" :title="$t('donatingPane')">
                     <button @click="setActivePane('donatingPane')">
                         <img :src="require('./assets/interface/donating.png')" width="16" height="16" alt="Donating" />
+                        <span class="ms-1 d-none d-sm-inline text-light">{{ $t('donatingPane') }}</span>
                     </button>
                 </div>
                 
@@ -579,6 +580,9 @@
                                             <option value="1000">{{ numeralFormat(1000, '0a') }}</option>
                                             <option value="10000">{{ numeralFormat(10000, '0a') }}</option>
                                             <option value="100000">{{ numeralFormat(100000, '0a') }}</option>
+                                            <option value="1000000">{{ numeralFormat(1000000, '0a') }}</option>
+                                            <option value="10000000">{{ numeralFormat(10000000, '0a') }}</option>
+                                            <option value="100000000">{{ numeralFormat(100000000, '0a') }}</option>
                                         </select>
                                     </div>
                                     <div v-if="data['autoEmc'].count > 0" class="col">
@@ -1924,6 +1928,23 @@
                             </div>
                         </div>
                         <div class="col-12 border-top">
+                            <div class="text-light">v1.33.0 - 2021-08-21</div>
+                            <ul class="small">
+                                <li>NEW: now you could enlighten without chossing a Titan</li>
+                                <li>CHANGE: new donor star (Asimov)</li>
+                                <li>CHANGE: now "Rocket Discount" is renamed to "Spaceship Discount"</li>
+                                <li>FIX: spelling error and Spaceship parts buttons (by brandonhawi)</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
+                            <div class="text-light">v1.32.0 - 2021-08-02</div>
+                            <ul class="small">
+                                <li>NEW: pinned pinned-tabs (by Élianne Lavoie)</li>
+                                <li>NEW: three more options for EMC conversion</li>
+                                <li>CHANGE: now red message when production is stopped is displayed on left side to avoid flickering</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
                             <div class="text-light">v1.31.5 - 2021-07-29</div>
                             <ul class="small">
                                 <li>CHANGE: some UI changes</li>
@@ -2072,7 +2093,7 @@ export default {
             enlightenSelected: null,
             overlordModal: null,
             
-            currentRelease: '1.31.5',
+            currentRelease: '1.33.0',
             ghLatestRelease: null,
             
             login: null,

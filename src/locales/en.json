@@ -5,7 +5,7 @@
     "donatingPane_desc3": "Make a donation",
     "donatingPane_desc4": "'ExileNG' is the name of my Paypal account.",
     "donatingPane_desc5": "To make a donation will allow to have a specific role on Discord server, to be credit in Donators pane in the game and to call a Star as you want :)",
-    "donatingPane_desc6": "'freddec.exileng@gmail.com' is my Paypal email.",
+    "donatingPane_desc6": "'freddec.exileng at gmail.com' is my Paypal email.",
     
     "achievementPane": "Achievements",
     "achievementPane_desc": "This is where you can see your rank and all of your achievements.",
@@ -84,7 +84,7 @@
     "helpStep7Text1": "This is the second layer of prestige. You will gather Ultrite by accomplishing some tasks and then purchase upgrades with Ultrite. Moreover you will discover the power of Titans that will really help you to go faster.",
     "helpStep7Tip1": "Enlightenment is unlocked by conquering 10 stars at least",
     "helpStep8Title": "Step #8 - Meet the Overlord",
-    "helpStep8Text1": "The final goal of you life : to meet the Overlord. To meet the Overlord you will have to build Statues on conquered stars. Nobody knows what happens when you will meet him ...",
+    "helpStep8Text1": "The final goal of your life : to meet the Overlord. To meet the Overlord you will have to build Statues on conquered stars. Nobody knows what happens when you will meet him ...",
     "helpStep8Tip1": "Ability to terraform and build Statues is unlocked by Overlord Appreciation Program",
 
     "settingsPane": "Options",
@@ -843,7 +843,7 @@
     "star74001": "AC +23°468",
     "star199602": "Xi Boötis",
     "star148101": "AC +17°534",
-    "star224201": "A",
+    "star224201": "Asimov",
     "star224202": "B",
     "star157301": "BD +15°473",
     "star72601": "Wolf 358",
@@ -1027,8 +1027,8 @@
     "stargazeMovitonPane_desc": "The Moviton Syndicate is an expansionist centred faction, with a goal of conquest over the galaxy. They often play both sides of a conflict, hoping to gain from the chaos. They offer improvements in your travel, including rocket building and interstellar travel.",
     "upgradeFuel1": "Chemical Plant Boost",
     "upgradeFuel1_desc": "Produce 100% more rocket fuel in chemical plants (T1). Improves relationship by 7.",
-    "upgradeSpaceship": "Rocket Discount",
-    "upgradeSpaceship_desc": "Rocket Parts Cost 35% less. Improves relationship by 28.",
+    "upgradeSpaceship": "Spaceship Discount",
+    "upgradeSpaceship_desc": "Spaceship Parts Cost 35% less. Improves relationship by 28.",
     "techPlasmaStorage4": "Tier 4 Plasma Storage",
     "techPlasmaStorage4_desc": "Unlock the Plasma Compression Chamber. Improves relationship by 28.",
     "techMeteorite3": "Meteorite Tier 3",
@@ -1193,5 +1193,6 @@
     
     "max": "Max",    
     "calcModal": "Machine Cost Calculator",    
-    "segmentModal": "Dyson Segment Cost Calculator"
+    "segmentModal": "Dyson Segment Cost Calculator",
+    "language": "Language"
 }

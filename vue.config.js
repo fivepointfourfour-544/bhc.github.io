@@ -1,7 +1,8 @@
 module.exports = {
     devServer: {
-        host: "testspacecompany.exileng.com",
-        public: "testspacecompany.exileng.com",
+        host: '0.0.0.0',
+        port: 8080,
+        disableHostCheck: true,
     },
-    publicPath: "./"
-}
+    publicPath: './',
+};

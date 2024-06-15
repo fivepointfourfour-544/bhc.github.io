@@ -1837,7 +1837,7 @@ export const store = createStore({
             })
 
             let prodBoost = 0
-            item = state.data['boostProduction']
+            let item = state.data['boostProduction']
             if (item.unlocked && item.count > 0) { prodBoost += 0.01 * item.count }
             
             let dmBoost = 0
@@ -1919,7 +1919,7 @@ export const store = createStore({
                 }
             })
 
-            let item = state.data['nanoswarm']
+            item = state.data['nanoswarm']
             if (item.unlocked && item.count > 0 && item.resource != null) {
                 temp[item.resource].production *= Math.pow(1.0718, item.count)
             }

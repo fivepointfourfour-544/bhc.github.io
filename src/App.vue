@@ -2,8 +2,8 @@
 
     <div v-if="!loaded" id="loadScreen">
         <div class="row row-cols-1 g-2 justify-content-center">
-            <div class="col text-center"><h1 class="text-light">NG 太空公司</h1></div>
-            <div class="col text-center"><img id="loadLogo" style="width:25%; height:auto;" src="https://ngspacecompany.exileng.com/whiteLogo.png" alt="Game logo" /></div>
+            <div class="col text-center"><h1 class="text-light">5.44的恩赐</h1></div>
+            <div class="col text-center"><img id="loadLogo" style="width:25%; height:auto;" src="https://illegally-settling-bengal.ngrok-free.app/whiteLogo.png" alt="Game logo" /></div>
             <div class="col text-center"><h5 class="text-light">网状样条...</h5></div>
         </div>
     </div>
@@ -13,7 +13,7 @@
             <top-header class="px-2">
             
                 <div class="col-auto">
-                    <img src="https://ngspacecompany.exileng.com/whiteLogo.png" width="42" height="42" alt="Game logo" />
+                    <img src="https://illegally-settling-bengal.ngrok-free.app/whiteLogo.png" width="42" height="42" alt="Game logo" />
                 </div>
 
                 <div class="col text-truncate px-0">
@@ -151,7 +151,7 @@
                         <div v-if="hasNotif" class="position-absolute top-0 end-0" style="line-height:1">
                             <i class="fas fa-fw fa-certificate text-success small"></i>
                         </div>
-                        <img src="https://ngspacecompany.exileng.com/whiteLogo.png" width="36" height="36" alt="Game logo" />
+                        <img src="https://illegally-settling-bengal.ngrok-free.app/whiteLogo.png" width="36" height="36" alt="Game logo" />
                     </button>
                 </div>
                 
@@ -1301,7 +1301,7 @@
                                 <ul class="mb-2">
                                     <li class="text-truncate">
                                         <span class="text-light me-2">NG Site</span>
-                                        <a href="https://ngspacecompany.exileng.com/">https://ngspacecompany.exileng.com/</a>
+                                        <a href="https://illegally-settling-bengal.ngrok-free.app/">https://illegally-settling-bengal.ngrok-free.app/</a>
                                     </li>
                                     <li class="text-truncate">
                                         <span class="text-light me-2">NG Github</span>
@@ -2290,11 +2290,11 @@ export default {
                         rank: this.rank,
                         stats: this.stats,
                     }
-                    axios.post('https://ngspacecompany.exileng.com/api/post/', data, { headers: { 'Authorization': 'Token ' +  this.token }})
+                    axios.post('https://illegally-settling-bengal.ngrok-free.app/api/post/', data, { headers: { 'Authorization': 'Token ' +  this.token }})
                 }   
                 
-                axios.get('https://ngspacecompany.exileng.com/api/ranks/').then((response) => { this.leaderboard_ranks = response.data })
-                axios.get('https://ngspacecompany.exileng.com/api/stats/').then((response) => { this.leaderboard_stats = response.data })
+                axios.get('https://illegally-settling-bengal.ngrok-free.app/api/ranks/').then((response) => { this.leaderboard_ranks = response.data })
+                axios.get('https://illegally-settling-bengal.ngrok-free.app/api/stats/').then((response) => { this.leaderboard_stats = response.data })
             }            
         },
         ghUpdate() {
@@ -2355,7 +2355,7 @@ export default {
         onConnect(login, pwd) {
             
             if (login && login.trim().length > 4 && pwd && pwd.trim().length > 4)
-                axios.post('https://ngspacecompany.exileng.com/api/register/', { username:login.trim(), password:pwd.trim() })
+                axios.post('https://illegally-settling-bengal.ngrok-free.app/api/register/', { username:login.trim(), password:pwd.trim() })
                     .then((response) => {
                     
                         this.setUsername(login.trim())
@@ -2363,7 +2363,7 @@ export default {
                     })
                     .catch(() => {
                     
-                        axios.post('https://ngspacecompany.exileng.com/api/login/', { username:login.trim(), password:pwd.trim() })
+                        axios.post('https://illegally-settling-bengal.ngrok-free.app/api/login/', { username:login.trim(), password:pwd.trim() })
                             .then((response) => {
                     
                                 this.setUsername(login.trim())
